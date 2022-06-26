@@ -13,6 +13,7 @@ import com.slailati.android.spectacle.data.model.User
 import com.slailati.android.spectacle.databinding.FragmentLoginBinding
 import com.slailati.android.spectacle.ui.extension.*
 import com.slailati.android.spectacle.ui.fragment.BaseFragment
+import com.slailati.android.spectacle.ui.fragment.dialog.SpectacleDialogFragment
 import com.slailati.android.spectacle.ui.viewmodel.UserViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -56,24 +57,27 @@ class LoginFragment : BaseFragment() {
             }
 
             btnLogin.setOnClickListener {
-                btnLogin.gone()
-                pbLoginLoading.visible()
-                if (isValidCredentials()) {
-                    val loginUser = User(
-                        email = etEmail.text.toString(),
-                        password = etPassword.text.toString()
-                    )
-                    userViewModel.login(loginUser)
-                    userViewModel.isLoggedIn().observeOnce(viewLifecycleOwner) {
-                        it?.let { response ->
-                            if (response.success) {
-                                userViewModel.insertProfile(response.value)
-                                findNavController().navigate(R.id.action_loginFragment_to_nav_home_graph)
+                if (requireActivity().isNetworkAvailable()) {
+                    btnLogin.gone()
+                    pbLoginLoading.visible()
+                    if (isValidCredentials()) {
+                        val loginUser = User(
+                            email = etEmail.text.toString(),
+                            password = etPassword.text.toString()
+                        )
+                        userViewModel.login(loginUser)
+                        userViewModel.isLoggedIn().observeOnce(viewLifecycleOwner) {
+                            it?.let { response ->
+                                if (response.success) {
+                                    userViewModel.insertProfile(response.value)
+                                    findNavController().navigate(R.id.action_loginFragment_to_nav_home_graph)
+                                } else
+                                    Toast.makeText(requireContext(),
+                                        response.message,
+                                        Toast.LENGTH_LONG).show()
+                                btnLogin.visible()
+                                pbLoginLoading.gone()
                             }
-                            else
-                                Toast.makeText(requireContext(), response.message, Toast.LENGTH_LONG).show()
-                            btnLogin.visible()
-                            pbLoginLoading.gone()
                         }
                     }
                 }

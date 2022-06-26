@@ -84,9 +84,10 @@ class NewMusicsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
 
         lifecycleScope.launchWhenStarted {
             musicViewModel.isMusicAdded().collectLatest { isAdded ->
-                if (isAdded)
+                if (isAdded) {
+                    musicViewModel.getMyMusicsPlaylist()
                     dialog?.dismiss()
-                else {
+                } else {
                     Toast.makeText(
                         requireActivity(),
                         "Erro ao adicionar a música em sua playlist. Por favor, tente novamente.",

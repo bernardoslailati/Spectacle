@@ -11,6 +11,7 @@ import com.slailati.android.spectacle.domain.service.TheMovieDatabaseService.Com
 import com.slailati.android.spectacle.domain.service.TheMovieDatabaseService.Companion.ANIMATION_ID
 import com.slailati.android.spectacle.domain.service.TheMovieDatabaseService.Companion.DRAMA_ID
 import com.slailati.android.spectacle.domain.service.TheMovieDatabaseService.Companion.SCIENCE_FICTION_ID
+import com.slailati.android.spectacle.ui.extension.isNetworkAvailable
 import com.slailati.android.spectacle.ui.fragment.BaseFragment
 import com.slailati.android.spectacle.ui.utils.adapter.MyMoviesAdapter
 import com.slailati.android.spectacle.ui.utils.adapter.OnItemClickListener
@@ -50,8 +51,11 @@ class MyMoviesFragment : BaseFragment() {
                 MyMoviesAdapter(object : OnItemClickListener<MovieModel> {
                     override fun onAddButtonClick(item: MovieModel) {
                         super.onAddButtonClick(item)
-                        NewMoviesBottomSheetDialogFragment(ACTION_ID).show(parentFragmentManager,
-                            NewMoviesBottomSheetDialogFragment.TAG)
+
+                        if (requireActivity().isNetworkAvailable()) {
+                            NewMoviesBottomSheetDialogFragment(ACTION_ID).show(parentFragmentManager,
+                                NewMoviesBottomSheetDialogFragment.TAG)
+                        }
                     }
 
                     override fun onLongClick(item: MovieModel, position: Int) {
@@ -67,8 +71,12 @@ class MyMoviesFragment : BaseFragment() {
                 MyMoviesAdapter(object : OnItemClickListener<MovieModel> {
                     override fun onAddButtonClick(item: MovieModel) {
                         super.onAddButtonClick(item)
-                        NewMoviesBottomSheetDialogFragment(ANIMATION_ID).show(parentFragmentManager,
-                            NewMoviesBottomSheetDialogFragment.TAG)
+
+                        if (requireActivity().isNetworkAvailable()) {
+                            NewMoviesBottomSheetDialogFragment(ANIMATION_ID).show(
+                                parentFragmentManager,
+                                NewMoviesBottomSheetDialogFragment.TAG)
+                        }
                     }
 
                     override fun onLongClick(item: MovieModel, position: Int) {
@@ -84,8 +92,11 @@ class MyMoviesFragment : BaseFragment() {
                 MyMoviesAdapter(object : OnItemClickListener<MovieModel> {
                     override fun onAddButtonClick(item: MovieModel) {
                         super.onAddButtonClick(item)
-                        NewMoviesBottomSheetDialogFragment(DRAMA_ID).show(parentFragmentManager,
-                            NewMoviesBottomSheetDialogFragment.TAG)
+
+                        if (requireActivity().isNetworkAvailable()) {
+                            NewMoviesBottomSheetDialogFragment(DRAMA_ID).show(parentFragmentManager,
+                                NewMoviesBottomSheetDialogFragment.TAG)
+                        }
                     }
 
                     override fun onLongClick(item: MovieModel, position: Int) {
@@ -101,9 +112,12 @@ class MyMoviesFragment : BaseFragment() {
                 MyMoviesAdapter(object : OnItemClickListener<MovieModel> {
                     override fun onAddButtonClick(item: MovieModel) {
                         super.onAddButtonClick(item)
-                        NewMoviesBottomSheetDialogFragment(SCIENCE_FICTION_ID).show(
-                            parentFragmentManager,
-                            NewMoviesBottomSheetDialogFragment.TAG)
+
+                        if (requireActivity().isNetworkAvailable()) {
+                            NewMoviesBottomSheetDialogFragment(SCIENCE_FICTION_ID).show(
+                                parentFragmentManager,
+                                NewMoviesBottomSheetDialogFragment.TAG)
+                        }
                     }
 
                     override fun onLongClick(item: MovieModel, position: Int) {

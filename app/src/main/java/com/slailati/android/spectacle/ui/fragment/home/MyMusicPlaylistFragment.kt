@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.slailati.android.spectacle.R
 import com.slailati.android.spectacle.databinding.FragmentMyMusicPlaylistBinding
 import com.slailati.android.spectacle.ui.extension.hideKeyboard
+import com.slailati.android.spectacle.ui.extension.isNetworkAvailable
 import com.slailati.android.spectacle.ui.fragment.BaseFragment
 import com.slailati.android.spectacle.ui.utils.adapter.MyMusicsPlaylistAdapter
 import com.slailati.android.spectacle.ui.viewmodel.MusicViewModel
@@ -113,8 +114,10 @@ class MyMusicPlaylistFragment : BaseFragment() {
             }
 
             tvAddNewMusic.setOnClickListener {
-                NewMusicsBottomSheetDialogFragment().show(parentFragmentManager,
-                    NewMusicsBottomSheetDialogFragment.TAG)
+                if (requireActivity().isNetworkAvailable()) {
+                    NewMusicsBottomSheetDialogFragment().show(parentFragmentManager,
+                        NewMusicsBottomSheetDialogFragment.TAG)
+                }
             }
 
             val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)

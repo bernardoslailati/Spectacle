@@ -42,7 +42,6 @@ val repositoryModule = module {
     single<MusicRepository> { MusicRepositoryImpl(get(), get()) }
     single<MovieRepository> { MovieRepositoryImpl(get(), get()) }
     single<UserRepository> { UserRepositoryImpl(get()) }
-//    single<LocalAuthRepository> { LocalAuthRepositoryImpl(get()) }
 }
 
 val dataSourceModule = module {
@@ -52,27 +51,16 @@ val dataSourceModule = module {
     single<TheMovieDatabaseDataSource> { TheMovieDatabaseDataSourceImpl(get()) }
     single<MyMoviesDataSource> { MyMoviesDataSourceImpl(get()) }
     single<ProfileDataSource> { ProfileDataSourceImpl(androidContext()) }
-//    single<LocalAuthDataSource> { LocalAuthDataSourceImpl(androidApplication()) }
-}
-
-val providerModule = module {
-//    single<ThreadContextProvider> { ThreadContextProvider() }
 }
 
 val firebaseModule = module {
     single { FirebaseAuth.getInstance() }
 }
 
-val useCaseModule = module {
-//    factory<FirebaseAuthUseCase> { (scope: CoroutineScope) -> FirebaseAuthUseCase(get(), scope) }
-}
-
 val viewModelModule = module {
     viewModel { UserViewModel(get(), get()) }
     viewModel { MusicViewModel(get()) }
     viewModel { MovieViewModel(get()) }
-//    viewModel<HomeViewModel> { HomeViewModel() }
-//    viewModel<WelcomeViewModel> { WelcomeViewModel(get(), get()) }
 }
 
 val networkModule = module {

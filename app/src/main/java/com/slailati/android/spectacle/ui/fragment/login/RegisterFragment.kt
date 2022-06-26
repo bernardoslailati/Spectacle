@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.slailati.android.spectacle.data.model.User
 import com.slailati.android.spectacle.databinding.FragmentRegisterBinding
+import com.slailati.android.spectacle.ui.extension.isNetworkAvailable
 import com.slailati.android.spectacle.ui.extension.isValidCredentials
 import com.slailati.android.spectacle.ui.extension.resetErrorMessages
 import com.slailati.android.spectacle.ui.fragment.BaseFragment
@@ -48,16 +49,18 @@ class RegisterFragment : BaseFragment() {
                 findNavController().popBackStack()
             }
 
-            btnLogin.setOnClickListener {
-                if (isValidCredentials()) {
-                    val newUser =
-                        User(email = etEmail.text.toString(), password = etPassword.text.toString())
-                    userViewModel.registerUser(newUser)
-                    userViewModel.isUserRegistered().observe(viewLifecycleOwner) {
-                        it?.let { response ->
-                            Toast.makeText(requireContext(), response.message, Toast.LENGTH_SHORT).show()
-                            if (response.success)
-                                findNavController().popBackStack()
+            btnRegister.setOnClickListener {
+                if (requireActivity().isNetworkAvailable()) {
+                    if (isValidCredentials()) {
+                        val newUser =
+                            User(email = etEmail.text.toString(), password = etPassword.text.toString())
+                        userViewModel.registerUser(newUser)
+                        userViewModel.isUserRegistered().observe(viewLifecycleOwner) {
+                            it?.let { response ->
+                                Toast.makeText(requireContext(), response.message, Toast.LENGTH_SHORT).show()
+                                if (response.success)
+                                    findNavController().popBackStack()
+                            }
                         }
                     }
                 }

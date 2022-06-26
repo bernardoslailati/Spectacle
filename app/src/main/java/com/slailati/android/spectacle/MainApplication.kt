@@ -21,9 +21,7 @@ class MainApplication : Application() {
                     networkModule,
                     dataSourceModule,
                     repositoryModule,
-                    useCaseModule,
-                    viewModelModule,
-                    providerModule
+                    viewModelModule
                 )
             )
         }
