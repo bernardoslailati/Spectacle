@@ -45,6 +45,27 @@ class MyMusicsPlaylistAdapter :
         }
     }
 
+    private lateinit var beforeFilterList: List<MusicModel>
+    private var isAltered: Boolean = false
+    
+    fun filterByTitle(searchTitle: String) {
+        if (!isAltered) {
+            beforeFilterList = currentList
+            isAltered = true
+
+            val filteredList = currentList.toMutableList().filter { it.title.lowercase().contains(searchTitle.lowercase()) }
+            submitList(filteredList)
+        } else {
+            if (searchTitle.isEmpty())
+                submitList(beforeFilterList)
+            else {
+                val filteredList = currentList.toMutableList()
+                    .filter { it.title.lowercase().contains(searchTitle.lowercase()) }
+                submitList(filteredList)
+            }
+        }
+    }
+
     fun removeAt(position: Int) {
         val updatedList = currentList.toMutableList()
         updatedList.remove(currentList[position])

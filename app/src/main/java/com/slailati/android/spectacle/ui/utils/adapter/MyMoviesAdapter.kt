@@ -43,9 +43,9 @@ class MyMoviesAdapter(
                 if (position == 0) {
                     cvAdd.visible()
                     cvVoteAverage.gone()
+                    ivPoster.setImageDrawable(null)
                     ivPosterBackground.background =
-                        ContextCompat.getDrawable(itemBinding.root.context,
-                            R.color.white_transparent)
+                        ContextCompat.getDrawable(itemBinding.root.context, R.color.white_transparent)
                     tvTitle.text = itemBinding.root.context.getString(R.string.add_title)
                     clContent.setOnClickListener {
                         onItemClickListener.onAddButtonClick(item)
@@ -59,6 +59,8 @@ class MyMoviesAdapter(
                         onItemClickListener.onLongClick(item, position)
                         true
                     }
+                    ivPosterBackground.background =
+                        ContextCompat.getDrawable(itemBinding.root.context, R.drawable.bg_item_my_movie)
                     tvVoteAverage.text = item.voteAverage.toString()
                     tvTitle.text = item.title
                     Glide
@@ -69,6 +71,27 @@ class MyMoviesAdapter(
                         .centerCrop()
                         .into(ivPoster)
                 }
+            }
+        }
+    }
+
+    private lateinit var beforeFilterList: List<MovieModel>
+    private var isAltered: Boolean = false
+
+    fun filterByTitle(searchTitle: String) {
+        if (!isAltered) {
+            beforeFilterList = currentList
+            isAltered = true
+
+            val filteredList = currentList.toMutableList().filter { it.title.lowercase().contains(searchTitle.lowercase()) }
+            submitList(filteredList)
+        } else {
+            if (searchTitle.isEmpty())
+                submitList(beforeFilterList)
+            else {
+                val filteredList = currentList.toMutableList()
+                    .filter { it.title.lowercase().contains(searchTitle.lowercase()) }
+                submitList(filteredList)
             }
         }
     }

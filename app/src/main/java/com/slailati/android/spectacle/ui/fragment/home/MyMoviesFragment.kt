@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.findNavController
 import com.slailati.android.spectacle.databinding.FragmentMyMoviesBinding
 import com.slailati.android.spectacle.domain.model.MovieModel
@@ -45,6 +46,13 @@ class MyMoviesFragment : BaseFragment() {
         with(binding) {
             ivBack.setOnClickListener {
                 findNavController().popBackStack()
+            }
+
+            etSearchMyMovies.doAfterTextChanged {
+                (binding.rvMyMoviesGenreAction.adapter as? MyMoviesAdapter)?.filterByTitle(it.toString())
+                (binding.rvMyMoviesGenreAnimation.adapter as? MyMoviesAdapter)?.filterByTitle(it.toString())
+                (binding.rvMyMoviesGenreDrama.adapter as? MyMoviesAdapter)?.filterByTitle(it.toString())
+                (binding.rvMyMoviesGenreScienceFiction.adapter as? MyMoviesAdapter)?.filterByTitle(it.toString())
             }
 
             rvMyMoviesGenreAction.adapter =

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -118,6 +119,10 @@ class MyMusicPlaylistFragment : BaseFragment() {
                     NewMusicsBottomSheetDialogFragment().show(parentFragmentManager,
                         NewMusicsBottomSheetDialogFragment.TAG)
                 }
+            }
+
+            etSearchPlaylistMusic.doAfterTextChanged {
+                (binding.rvMyMusicPlaylist.adapter as? MyMusicsPlaylistAdapter)?.filterByTitle(it.toString())
             }
 
             val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
