@@ -1,6 +1,6 @@
 package com.slailati.android.spectacle.data.datasource
 
-import com.slailati.android.spectacle.domain.mapper.toDomainList
+import com.slailati.android.spectacle.domain.mapper.toDomainMusicList
 import com.slailati.android.spectacle.domain.model.MusicModel
 import com.slailati.android.spectacle.domain.service.DeezerService
 
@@ -9,6 +9,6 @@ class DeezerMusicDataSourceImpl(
 ): DeezerMusicDataSource {
 
     override suspend fun getMusics(): List<MusicModel> =
-        deezerService.getMusics().toDomainList()
+        deezerService.getMusics().toDomainMusicList()
 
 }

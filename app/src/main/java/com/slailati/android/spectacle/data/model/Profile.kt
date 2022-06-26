@@ -1,5 +1,9 @@
 package com.slailati.android.spectacle.data.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Profile (
     val uuid: String = "",
     val hasSession: Boolean = false,
@@ -10,4 +14,4 @@ data class Profile (
     val city: String = "",
     val state: String = "",
     val country: String = ""
-)
+) : Parcelable

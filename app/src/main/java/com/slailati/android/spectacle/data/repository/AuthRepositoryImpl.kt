@@ -2,6 +2,7 @@ package com.slailati.android.spectacle.data.repository
 
 import androidx.lifecycle.LiveData
 import com.slailati.android.spectacle.data.datasource.FirebaseAuthDataSource
+import com.slailati.android.spectacle.data.datasource.ProfileDataSource
 import com.slailati.android.spectacle.data.model.Profile
 import com.slailati.android.spectacle.data.model.Response
 import com.slailati.android.spectacle.data.model.User

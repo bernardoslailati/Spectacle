@@ -37,7 +37,7 @@ class MyMusicsPlaylistAdapter :
                 Glide
                     .with(root)
                     .load(item.albumCoverUrl)
-                    .placeholder(R.raw.loading_album)
+                    .placeholder(R.raw.loading_album_cover)
                     .error(R.drawable.ic_not_found_album)
                     .centerCrop()
                     .into(ivAlbumCover)

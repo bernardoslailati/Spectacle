@@ -9,8 +9,13 @@ import androidx.navigation.fragment.findNavController
 import com.slailati.android.spectacle.R
 import com.slailati.android.spectacle.databinding.FragmentMenuBinding
 import com.slailati.android.spectacle.ui.fragment.BaseFragment
+import com.slailati.android.spectacle.ui.fragment.dialog.SpectacleDialogFragment
+import com.slailati.android.spectacle.ui.viewmodel.UserViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class MenuFragment : BaseFragment() {
+
+    private val userViewModel: UserViewModel by sharedViewModel()
 
     private var _binding: FragmentMenuBinding? = null
     private val binding get() = _binding!!
@@ -40,22 +45,27 @@ class MenuFragment : BaseFragment() {
             tvMyMovies.setOnClickListener {
                 findNavController().navigate(R.id.action_menuFragment_to_myMoviesFragment)
             }
+
+            ivLogout.setOnClickListener {
+                showLogoutAlertDialog()
+            }
         }
     }
 
     override fun onBackPressed(): Boolean {
-        AlertDialog.Builder(requireContext())
-            .setTitle("Deseja realmente sair?")
-            .setMessage("Ao sair, o logout será efetuado automaticamente.")
-            .setPositiveButton("SIM") { v, _ ->
-                v.dismiss()
-                requireActivity().finish()
-            }
-            .setNegativeButton("NÃO") { v, _ ->
-                v.dismiss()
-            }.show()
-
+        showLogoutAlertDialog()
         return true
+    }
+
+    private fun showLogoutAlertDialog() {
+        SpectacleDialogFragment(
+            title = "Deseja realmente sair?",
+            content = "Ao sair, o logout será efetuado automaticamente.",
+            onPositiveButtonClick = {
+                userViewModel.logout()
+                findNavController().setGraph(R.navigation.nav_login_graph)
+            }
+        ).show(parentFragmentManager, SpectacleDialogFragment.TAG)
     }
 
 }

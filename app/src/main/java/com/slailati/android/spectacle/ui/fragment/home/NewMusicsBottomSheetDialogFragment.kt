@@ -1,7 +1,6 @@
 package com.slailati.android.spectacle.ui.fragment.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,17 +10,16 @@ import com.slailati.android.spectacle.databinding.BottomsheetDialogFragmentNewMu
 import com.slailati.android.spectacle.domain.model.MusicModel
 import com.slailati.android.spectacle.ui.extension.gone
 import com.slailati.android.spectacle.ui.extension.hideKeyboard
-import com.slailati.android.spectacle.ui.extension.observeOnce
 import com.slailati.android.spectacle.ui.fragment.BaseBottomSheetDialogFragment
 import com.slailati.android.spectacle.ui.utils.adapter.NewMusicsAdapter
 import com.slailati.android.spectacle.ui.utils.adapter.OnItemClickListener
-import com.slailati.android.spectacle.ui.viewmodel.MyMusicPlaylistViewModel
+import com.slailati.android.spectacle.ui.viewmodel.MusicViewModel
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class NewMusicsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
 
-    private val myMusicPlaylistViewModel: MyMusicPlaylistViewModel by sharedViewModel()
+    private val musicViewModel: MusicViewModel by sharedViewModel()
 
     private var _binding: BottomsheetDialogFragmentNewMusicsBinding? = null
     private val binding get() = _binding!!
@@ -55,7 +53,7 @@ class NewMusicsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
             rvNewMusics.adapter = NewMusicsAdapter(object : OnItemClickListener<MusicModel> {
                 override fun onAddButtonClick(item: MusicModel) {
                     super.onAddButtonClick(item)
-                    myMusicPlaylistViewModel.allMyMusicsPlaylist().value?.let { myMusics ->
+                    musicViewModel.allMyMusicsPlaylist().value?.let { myMusics ->
                         if (myMusics.any { it.title == item.title }) {
                             Toast.makeText(requireContext(),
                                 "A música escolhida já existe na sua playlist.",
@@ -63,7 +61,7 @@ class NewMusicsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
                             return@onAddButtonClick
                         }
                     }
-                    myMusicPlaylistViewModel.addMusicToMyPlaylist(item)
+                    musicViewModel.addMusicToMyPlaylist(item)
                 }
             })
         }
@@ -72,9 +70,9 @@ class NewMusicsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
     override fun addObservers() {
         super.addObservers()
 
-        myMusicPlaylistViewModel.getNewMusics()
+        musicViewModel.getNewMusics()
 
-        myMusicPlaylistViewModel.allNewMusics().observe(viewLifecycleOwner) {
+        musicViewModel.allNewMusics().observe(viewLifecycleOwner) {
             it?.let { allMusics ->
                 binding.lavLoadingNewMusics.apply {
                     pauseAnimation()
@@ -85,16 +83,10 @@ class NewMusicsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
         }
 
         lifecycleScope.launchWhenStarted {
-            myMusicPlaylistViewModel.isMusicAdded().collectLatest { isAdded ->
-                if (isAdded) {
-                    myMusicPlaylistViewModel.getMyMusicsPlaylist()
-                    Toast.makeText(
-                        requireActivity(),
-                        "A música foi adicionada a sua playlist.",
-                        Toast.LENGTH_LONG
-                    ).show()
+            musicViewModel.isMusicAdded().collectLatest { isAdded ->
+                if (isAdded)
                     dialog?.dismiss()
-                } else {
+                else {
                     Toast.makeText(
                         requireActivity(),
                         "Erro ao adicionar a música em sua playlist. Por favor, tente novamente.",

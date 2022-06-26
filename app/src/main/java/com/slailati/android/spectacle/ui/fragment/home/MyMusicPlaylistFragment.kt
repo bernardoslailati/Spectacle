@@ -17,12 +17,12 @@ import com.slailati.android.spectacle.databinding.FragmentMyMusicPlaylistBinding
 import com.slailati.android.spectacle.ui.extension.hideKeyboard
 import com.slailati.android.spectacle.ui.fragment.BaseFragment
 import com.slailati.android.spectacle.ui.utils.adapter.MyMusicsPlaylistAdapter
-import com.slailati.android.spectacle.ui.viewmodel.MyMusicPlaylistViewModel
+import com.slailati.android.spectacle.ui.viewmodel.MusicViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class MyMusicPlaylistFragment : BaseFragment() {
 
-    private val myMusicPlaylistViewModel: MyMusicPlaylistViewModel by sharedViewModel()
+    private val musicViewModel: MusicViewModel by sharedViewModel()
 
     private var _binding: FragmentMyMusicPlaylistBinding? = null
     private val binding get() = _binding!!
@@ -54,9 +54,9 @@ class MyMusicPlaylistFragment : BaseFragment() {
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
             val position = viewHolder.adapterPosition
             (binding.rvMyMusicPlaylist.adapter as? MyMusicsPlaylistAdapter)?.let { adapter ->
-                myMusicPlaylistViewModel.removeMusicFromMyPlaylist(adapter.currentList[position])
+                musicViewModel.removeMusicFromMyPlaylist(adapter.currentList[position])
                 adapter.removeAt(position)
-                myMusicPlaylistViewModel.getMyMusicsPlaylist()
+                musicViewModel.getMyMusicsPlaylist()
             }
         }
 
@@ -126,9 +126,9 @@ class MyMusicPlaylistFragment : BaseFragment() {
     override fun addObservers() {
         super.addObservers()
 
-        myMusicPlaylistViewModel.getMyMusicsPlaylist()
+        musicViewModel.getMyMusicsPlaylist()
 
-        myMusicPlaylistViewModel.allMyMusicsPlaylist().observe(viewLifecycleOwner) {
+        musicViewModel.allMyMusicsPlaylist().observe(viewLifecycleOwner) {
             it?.let { myMusicsPlaylist ->
                 (binding.rvMyMusicPlaylist.adapter as? MyMusicsPlaylistAdapter)?.submitList(
                     myMusicsPlaylist)

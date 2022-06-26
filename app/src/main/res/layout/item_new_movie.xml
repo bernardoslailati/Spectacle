@@ -2,30 +2,30 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clContent"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="2dp"
-    android:id="@+id/clContent"
+    android:padding="8dp"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivPoster"
-        android:layout_width="120dp"
-        android:layout_height="174dp"
+        android:layout_width="180dp"
+        android:layout_height="261dp"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/example_movie_poster" />
+        app:srcCompat="@drawable/example_movie_poster" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivPosterBackground"
-        android:layout_width="120dp"
-        android:layout_height="174dp"
-        android:background="@drawable/bg_item_my_movie"
+        android:layout_width="180dp"
+        android:layout_height="261dp"
+        android:background="@drawable/bg_item_new_movie"
         android:scaleType="fitXY"
         android:translationZ="90dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -38,29 +38,50 @@
         style="@style/TitleText"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="8dp"
+        android:layout_margin="16dp"
         android:ellipsize="end"
-        android:gravity="center"
-        android:letterSpacing="0.05"
-        android:maxLines="4"
         android:textAlignment="center"
-        android:textSize="12sp"
+        android:letterSpacing="0.05"
+        android:maxLines="3"
+        android:textSize="18sp"
         android:translationZ="90dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/glHalfPage"
-        tools:ignore="SmallSp"
+        app:layout_constraintTop_toBottomOf="@+id/cvAdd"
+        app:layout_constraintVertical_bias="1"
         tools:text="Doutor Estranho no Multiverso da Loucura" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cvVoteAverage"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_margin="8dp"
+        android:id="@+id/cvAdd"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:foregroundGravity="center"
         android:translationZ="90dp"
-        app:cardBackgroundColor="@color/medium_purple"
+        app:cardBackgroundColor="@color/white_transparent"
+        app:cardCornerRadius="64dp"
+        app:cardElevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:tint="@color/white_transparent"
+            app:srcCompat="@drawable/ic_add" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_margin="8dp"
+        android:translationZ="90dp"
+        app:cardBackgroundColor="@color/white_transparent"
         app:cardCornerRadius="36dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,41 +94,8 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:textAlignment="center"
-            android:textSize="12sp"
-            tools:text="6.6" />
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glHalfPage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvAdd"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:foregroundGravity="center"
-        android:translationZ="90dp"
-        android:visibility="gone"
-        app:cardBackgroundColor="@color/white_transparent"
-        app:cardCornerRadius="48dp"
-        app:cardElevation="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivAdd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:tint="@color/white_transparent"
-            app:srcCompat="@drawable/ic_add" />
+            android:textSize="18sp"
+            tools:text="9.9" />
 
     </androidx.cardview.widget.CardView>
 

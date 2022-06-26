@@ -1,31 +1,25 @@
 package com.slailati.android.spectacle.ui.fragment.home
 
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.RectF
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
-import com.slailati.android.spectacle.R
 import com.slailati.android.spectacle.databinding.FragmentMyMoviesBinding
-import com.slailati.android.spectacle.databinding.FragmentMyMusicPlaylistBinding
-import com.slailati.android.spectacle.ui.extension.hideKeyboard
+import com.slailati.android.spectacle.domain.model.MovieModel
+import com.slailati.android.spectacle.domain.service.TheMovieDatabaseService.Companion.ACTION_ID
+import com.slailati.android.spectacle.domain.service.TheMovieDatabaseService.Companion.ANIMATION_ID
+import com.slailati.android.spectacle.domain.service.TheMovieDatabaseService.Companion.DRAMA_ID
+import com.slailati.android.spectacle.domain.service.TheMovieDatabaseService.Companion.SCIENCE_FICTION_ID
 import com.slailati.android.spectacle.ui.fragment.BaseFragment
-import com.slailati.android.spectacle.ui.utils.adapter.MyMusicsPlaylistAdapter
-import com.slailati.android.spectacle.ui.viewmodel.MyMusicPlaylistViewModel
+import com.slailati.android.spectacle.ui.utils.adapter.MyMoviesAdapter
+import com.slailati.android.spectacle.ui.utils.adapter.OnItemClickListener
+import com.slailati.android.spectacle.ui.viewmodel.MovieViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class MyMoviesFragment : BaseFragment() {
 
-
-    private val myMusicPlaylistViewModel: MyMusicPlaylistViewModel by sharedViewModel()
+    private val movieViewModel: MovieViewModel by sharedViewModel()
 
     private var _binding: FragmentMyMoviesBinding? = null
     private val binding get() = _binding!!
@@ -51,13 +45,112 @@ class MyMoviesFragment : BaseFragment() {
             ivBack.setOnClickListener {
                 findNavController().popBackStack()
             }
+
+            rvMyMoviesGenreAction.adapter =
+                MyMoviesAdapter(object : OnItemClickListener<MovieModel> {
+                    override fun onAddButtonClick(item: MovieModel) {
+                        super.onAddButtonClick(item)
+                        NewMoviesBottomSheetDialogFragment(ACTION_ID).show(parentFragmentManager,
+                            NewMoviesBottomSheetDialogFragment.TAG)
+                    }
+
+                    override fun onLongClick(item: MovieModel, position: Int) {
+                        super.onLongClick(item, position)
+                        (binding.rvMyMoviesGenreAction.adapter as? MyMoviesAdapter)?.let { adapter ->
+                            movieViewModel.removeMovieFromMyList(item)
+                            adapter.removeAt(position)
+                            movieViewModel.getMyMovies()
+                        }
+                    }
+                })
+            rvMyMoviesGenreAnimation.adapter =
+                MyMoviesAdapter(object : OnItemClickListener<MovieModel> {
+                    override fun onAddButtonClick(item: MovieModel) {
+                        super.onAddButtonClick(item)
+                        NewMoviesBottomSheetDialogFragment(ANIMATION_ID).show(parentFragmentManager,
+                            NewMoviesBottomSheetDialogFragment.TAG)
+                    }
+
+                    override fun onLongClick(item: MovieModel, position: Int) {
+                        super.onLongClick(item, position)
+                        (binding.rvMyMoviesGenreAnimation.adapter as? MyMoviesAdapter)?.let { adapter ->
+                            movieViewModel.removeMovieFromMyList(item)
+                            adapter.removeAt(position)
+                            movieViewModel.getMyMovies()
+                        }
+                    }
+                })
+            rvMyMoviesGenreDrama.adapter =
+                MyMoviesAdapter(object : OnItemClickListener<MovieModel> {
+                    override fun onAddButtonClick(item: MovieModel) {
+                        super.onAddButtonClick(item)
+                        NewMoviesBottomSheetDialogFragment(DRAMA_ID).show(parentFragmentManager,
+                            NewMoviesBottomSheetDialogFragment.TAG)
+                    }
+
+                    override fun onLongClick(item: MovieModel, position: Int) {
+                        super.onLongClick(item, position)
+                        (binding.rvMyMoviesGenreDrama.adapter as? MyMoviesAdapter)?.let { adapter ->
+                            movieViewModel.removeMovieFromMyList(item)
+                            adapter.removeAt(position)
+                            movieViewModel.getMyMovies()
+                        }
+                    }
+                })
+            rvMyMoviesGenreScienceFiction.adapter =
+                MyMoviesAdapter(object : OnItemClickListener<MovieModel> {
+                    override fun onAddButtonClick(item: MovieModel) {
+                        super.onAddButtonClick(item)
+                        NewMoviesBottomSheetDialogFragment(SCIENCE_FICTION_ID).show(
+                            parentFragmentManager,
+                            NewMoviesBottomSheetDialogFragment.TAG)
+                    }
+
+                    override fun onLongClick(item: MovieModel, position: Int) {
+                        super.onLongClick(item, position)
+                        (binding.rvMyMoviesGenreScienceFiction.adapter as? MyMoviesAdapter)?.let { adapter ->
+                            movieViewModel.removeMovieFromMyList(item)
+                            adapter.removeAt(position)
+                            movieViewModel.getMyMovies()
+                        }
+                    }
+                })
         }
     }
 
     override fun addObservers() {
         super.addObservers()
 
-    }
+        movieViewModel.getMyMovies()
 
+        movieViewModel.allMyMovies().observe(viewLifecycleOwner) {
+            it?.let { allMyMovies ->
+                val emptyMovie = MovieModel(genreIds = emptyList(),
+                    title = "",
+                    voteAverage = -1f,
+                    posterPath = "")
+                val actionMovies = listOf(emptyMovie) + allMyMovies.filter { movie ->
+                    movie.genreIds.contains(ACTION_ID)
+                }
+                val animationMovies = listOf(emptyMovie) + allMyMovies.filter { movie ->
+                    movie.genreIds.contains(ANIMATION_ID)
+                }
+                val dramaMovies = listOf(emptyMovie) +
+                        allMyMovies.filter { movie -> movie.genreIds.contains(DRAMA_ID) }
+                val scienceFictionMovies = listOf(emptyMovie) +
+                        allMyMovies.filter { movie -> movie.genreIds.contains(SCIENCE_FICTION_ID) }
+
+                binding.apply {
+                    (rvMyMoviesGenreAction.adapter as? MyMoviesAdapter)?.submitList(actionMovies)
+                    (rvMyMoviesGenreAnimation.adapter as? MyMoviesAdapter)?.submitList(
+                        animationMovies)
+                    (rvMyMoviesGenreDrama.adapter as? MyMoviesAdapter)?.submitList(dramaMovies)
+                    (rvMyMoviesGenreScienceFiction.adapter as? MyMoviesAdapter)?.submitList(
+                        scienceFictionMovies)
+                }
+            }
+        }
+
+    }
 
 }

@@ -3,8 +3,6 @@
     <string name="password_title">Senha</string>
     <string name="email_title">Email</string>
     <string name="not_registered_title"><u>Não possui cadastro?</u></string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login_title">Entrar</string>
     <string name="register_user_title">Cadastro de Usuário</string>
     <string name="register_title">Cadastrar</string>
@@ -16,9 +14,12 @@
     <string name="hint_search_my_music_playlist">Buscar em minha Playlist…</string>
     <string name="add_new_music">Adicionar nova música</string>
     <string name="hint_search_new_music">Buscar nova música…</string>
+    <string name="hint_search_new_movie">Buscar novo filme…</string>
     <string name="my_movies_title">Meus Filmes</string>
     <string name="hint_search_my_movies">Buscar em Meus Filmes…</string>
-    <string name="movie_genre_favorites_title">Favoritos</string>
-    <string name="movie_genre_classics_title">Clássicos</string>
-    <string name="movie_genre_animations_title">Animações</string>
+    <string name="movie_genre_action_title">Ação</string>
+    <string name="movie_genre_animation_title">Animação</string>
+    <string name="movie_genre_drama_title">Drama</string>
+    <string name="movie_genre_science_fiction_title">Ficção Científica</string>
+    <string name="add_title">Adicionar</string>
 </resources>

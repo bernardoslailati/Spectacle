@@ -1,7 +1,7 @@
 package com.slailati.android.spectacle.data.datasource
 
 import com.slailati.android.spectacle.domain.database.MainDatabase
-import com.slailati.android.spectacle.domain.mapper.toDomainList
+import com.slailati.android.spectacle.domain.mapper.toDomainMusicList
 import com.slailati.android.spectacle.domain.mapper.toEntity
 import com.slailati.android.spectacle.domain.model.MusicModel
 
@@ -21,9 +21,9 @@ class MyMusicsPlaylistDataSourceImpl(
     }
 
     override suspend fun getAll(): List<MusicModel> =
-        mainDatabase.myMusicsPlaylistDao.getAll().toDomainList()
+        mainDatabase.myMusicsPlaylistDao.getAll().toDomainMusicList()
 
     override suspend fun getAllByUserId(userId: String): List<MusicModel> =
-        mainDatabase.myMusicsPlaylistDao.getAllByUserId(userId).toDomainList()
+        mainDatabase.myMusicsPlaylistDao.getAllByUserId(userId).toDomainMusicList()
 
 }

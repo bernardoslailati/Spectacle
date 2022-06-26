@@ -11,7 +11,7 @@
         android:id="@+id/clContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_gradient_screen_default">
+        android:background="@drawable/bg_gradient_screen_inverse">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivBack"
@@ -52,7 +52,7 @@
             app:layout_constraintTop_toBottomOf="@+id/etSearchMyMovies" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/llMovieGenreFavorites"
+            android:id="@+id/llMovieGenreAction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
@@ -69,29 +69,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="@string/movie_genre_favorites_title"
+                android:text="@string/movie_genre_action_title"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etSearchPlaylistMusic" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvMyMoviesGenreFavorites"
+                android:id="@+id/rvMyMoviesGenreAction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clipToPadding="false"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvAddNewMusic"
-                tools:itemCount="20"
+                tools:itemCount="12"
                 tools:listitem="@layout/item_my_movie" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/llMovieGenreClassics"
+            android:id="@+id/llMovieGenreAnimation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
@@ -100,22 +101,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/llMovieGenreFavorites">
+            app:layout_constraintTop_toBottomOf="@+id/llMovieGenreAction">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvMovieGenreClassicsTitle"
+                android:id="@+id/tvMovieGenreAnimationTitle"
                 style="@style/SubtitleText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="@string/movie_genre_classics_title"
+                android:text="@string/movie_genre_animation_title"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etSearchPlaylistMusic" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvMyMoviesGenreClassics"
+                android:id="@+id/rvMyMoviesGenreAnimation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -130,7 +131,46 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/llMovieGenreAnimations"
+            android:id="@+id/llMovieGenreDrama"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/llMovieGenreAnimation">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvMovieGenreDramaTitle"
+                style="@style/SubtitleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="@string/movie_genre_drama_title"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etSearchPlaylistMusic" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMyMoviesGenreDrama"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvAddNewMusic"
+                tools:itemCount="20"
+                tools:listitem="@layout/item_my_movie" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/llMovieGenreScienceFiction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
@@ -141,22 +181,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/llMovieGenreClassics">
+            app:layout_constraintTop_toBottomOf="@+id/llMovieGenreDrama">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvMovieGenreAnimationsTitle"
+                android:id="@+id/tvMovieGenreScienceFictionTitle"
                 style="@style/SubtitleText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/movie_genre_animations_title"
-                android:textSize="18sp"
                 android:layout_marginBottom="8dp"
+                android:text="@string/movie_genre_science_fiction_title"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etSearchPlaylistMusic" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvMyMoviesGenreAnimations"
+                android:id="@+id/rvMyMoviesGenreScienceFiction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"

@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class MyMusicPlaylistViewModel(
+class MusicViewModel(
     private val musicRepository: MusicRepository
 ): BaseViewModel() {
 
@@ -24,8 +24,8 @@ class MyMusicPlaylistViewModel(
     private val _isMusicAdded: MutableSharedFlow<Boolean> = MutableSharedFlow()
     fun isMusicAdded() = _isMusicAdded.asSharedFlow()
 
-    private val _isMusicRemoved: MutableLiveData<Unit> = MutableLiveData()
-    fun isMusicRemoved() = _isMusicRemoved
+    private val _isMusicRemoved: MutableSharedFlow<Unit> = MutableSharedFlow()
+    fun isMusicRemoved() = _isMusicRemoved.asSharedFlow()
 
     fun getNewMusics() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -47,7 +47,7 @@ class MyMusicPlaylistViewModel(
 
     fun removeMusicFromMyPlaylist(music: MusicModel) {
         CoroutineScope(Dispatchers.IO).launch {
-            _isMusicRemoved.postValue(musicRepository.deleteMusicFromMyPlaylist(music.localId))
+            _isMusicRemoved.emit(musicRepository.deleteMusicFromMyPlaylist(music.localId))
         }
     }
 
