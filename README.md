@@ -44,4 +44,8 @@ __-------------- Novos Filmes (por gênero)__
 - OkHttp3
 - Gson
 
+## APIs
+- [Deezer](https://rapidapi.com/deezerdevs/api/deezer-1) (novas músicas)
+- [The Movie Database](https://developers.themoviedb.org/3/getting-started/introduction) (novos filmes por gênero)
+
  ![ic_app_launcher_round](https://user-images.githubusercontent.com/44252209/175922126-c8dab67a-c3fc-4bdb-9437-a350f7ce0302.png)
