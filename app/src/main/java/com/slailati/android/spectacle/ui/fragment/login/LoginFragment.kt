@@ -1,7 +1,6 @@
 package com.slailati.android.spectacle.ui.fragment.login
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +12,8 @@ import com.slailati.android.spectacle.data.model.User
 import com.slailati.android.spectacle.databinding.FragmentLoginBinding
 import com.slailati.android.spectacle.ui.extension.*
 import com.slailati.android.spectacle.ui.fragment.BaseFragment
-import com.slailati.android.spectacle.ui.fragment.dialog.SpectacleDialogFragment
 import com.slailati.android.spectacle.ui.viewmodel.UserViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class LoginFragment : BaseFragment() {
@@ -83,7 +79,6 @@ class LoginFragment : BaseFragment() {
         userViewModel.isLoggedIn().observe(viewLifecycleOwner) {
             it?.let { response ->
                 if (response.success) {
-                    Log.d("OPAOPA", "profile: ${response.value}")
                     userViewModel.insertProfile(response.value)
                     findNavController().navigate(R.id.action_loginFragment_to_nav_home_graph)
                 } else

@@ -1,8 +1,6 @@
 package com.slailati.android.spectacle.ui.fragment.home
 
-import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,7 +61,6 @@ class MenuFragment : BaseFragment() {
             title = "Deseja realmente sair?",
             content = "Ao sair, o logout será efetuado automaticamente.",
             onPositiveButtonClick = {
-                Log.d("OPAOPA", "showLogoutAlertDialog")
                 userViewModel.logout()
                 findNavController().setGraph(R.navigation.nav_login_graph)
             }
