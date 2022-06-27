@@ -7,18 +7,18 @@ import com.slailati.android.spectacle.data.model.Profile
 import com.slailati.android.spectacle.data.model.Response
 import com.slailati.android.spectacle.data.model.User
 
-class AuthRepositoryImpl (
-    private val firebaseAuthDatasource: FirebaseAuthDataSource
+class AuthRepositoryImpl(
+    private val firebaseAuthDatasource: FirebaseAuthDataSource,
 ) : AuthRepository {
 
     override fun registerUser(user: User): LiveData<Response<User>> =
         firebaseAuthDatasource.registerUser(user)
 
-    override fun login(user: User): LiveData<Response<Profile>> =
+    override fun login(user: User) =
         firebaseAuthDatasource.login(user)
 
-    override fun logout() {
-        // TODO("Not yet implemented")
-    }
+    override fun logout() {}
+
+    override fun isLoggedIn(): LiveData<Response<Profile>> = firebaseAuthDatasource.isLoggedIn()
 
 }

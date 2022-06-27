@@ -57,29 +57,14 @@ class LoginFragment : BaseFragment() {
             }
 
             btnLogin.setOnClickListener {
-                if (requireActivity().isNetworkAvailable()) {
+                if (requireActivity().isNetworkAvailable() && isValidCredentials()) {
                     btnLogin.gone()
                     pbLoginLoading.visible()
-                    if (isValidCredentials()) {
-                        val loginUser = User(
-                            email = etEmail.text.toString(),
-                            password = etPassword.text.toString()
-                        )
-                        userViewModel.login(loginUser)
-                        userViewModel.isLoggedIn().observeOnce(viewLifecycleOwner) {
-                            it?.let { response ->
-                                if (response.success) {
-                                    userViewModel.insertProfile(response.value)
-                                    findNavController().navigate(R.id.action_loginFragment_to_nav_home_graph)
-                                } else
-                                    Toast.makeText(requireContext(),
-                                        response.message,
-                                        Toast.LENGTH_LONG).show()
-                                btnLogin.visible()
-                                pbLoginLoading.gone()
-                            }
-                        }
-                    }
+                    val loginUser = User(
+                        email = etEmail.text.toString(),
+                        password = etPassword.text.toString()
+                    )
+                    userViewModel.login(loginUser)
                 }
             }
         }
@@ -94,6 +79,20 @@ class LoginFragment : BaseFragment() {
                     findNavController().navigate(R.id.action_loginFragment_to_nav_home_graph)
             }
         }
-    }
 
+        userViewModel.isLoggedIn().observe(viewLifecycleOwner) {
+            it?.let { response ->
+                if (response.success) {
+                    Log.d("OPAOPA", "profile: ${response.value}")
+                    userViewModel.insertProfile(response.value)
+                    findNavController().navigate(R.id.action_loginFragment_to_nav_home_graph)
+                } else
+                    Toast.makeText(requireContext(),
+                        response.message,
+                        Toast.LENGTH_LONG).show()
+                binding.btnLogin.visible()
+                binding.pbLoginLoading.gone()
+            }
+        }
+    }
 }

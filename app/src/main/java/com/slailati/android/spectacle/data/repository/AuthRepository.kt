@@ -9,8 +9,10 @@ interface AuthRepository {
 
     fun registerUser(user: User): LiveData<Response<User>>
 
-    fun login(user: User): LiveData<Response<Profile>>
+    fun login(user: User)
 
     fun logout()
+
+    fun isLoggedIn(): LiveData<Response<Profile>>
 
 }

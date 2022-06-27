@@ -1,13 +1,10 @@
 package com.slailati.android.spectacle.ui.fragment.dialog
 
-import android.app.ActionBar
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams
 import com.slailati.android.spectacle.databinding.DialogBaseBinding
 import com.slailati.android.spectacle.ui.extension.gone

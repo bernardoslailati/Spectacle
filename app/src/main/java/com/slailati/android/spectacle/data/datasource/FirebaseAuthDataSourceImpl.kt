@@ -6,6 +6,10 @@ import com.google.firebase.auth.*
 import com.slailati.android.spectacle.data.model.Profile
 import com.slailati.android.spectacle.data.model.Response
 import com.slailati.android.spectacle.data.model.User
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class FirebaseAuthDataSourceImpl(
     private val firebaseAuth: FirebaseAuth,
@@ -34,7 +38,7 @@ class FirebaseAuthDataSourceImpl(
         return _isUserRegistered
     }
 
-    override fun login(user: User): LiveData<Response<Profile>> {
+    override fun login(user: User) {
         val (email, password) = user
         firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
@@ -53,10 +57,20 @@ class FirebaseAuthDataSourceImpl(
                 }
                 _isLoggedIn.postValue(Response(Profile(), false, errorMessage))
             }
-        return _isLoggedIn
+            .addOnCompleteListener {
+                resetIsLoggedInValue()
+            }
     }
 
-    override fun logout() {
-        // TODO("Not yet implemented")
+    private fun resetIsLoggedInValue() {
+        CoroutineScope(Dispatchers.IO).launch {
+            delay(200)
+            _isLoggedIn.postValue(null)
+        }
     }
+
+    override fun logout() {}
+
+    override fun isLoggedIn(): LiveData<Response<Profile>> = _isLoggedIn
+
 }

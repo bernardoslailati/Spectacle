@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.slailati.android.spectacle.R
 import com.slailati.android.spectacle.databinding.ItemMyMovieBinding
 import com.slailati.android.spectacle.domain.model.MovieModel
@@ -66,9 +67,9 @@ class MyMoviesAdapter(
                     Glide
                         .with(root)
                         .load(TheMovieDatabaseService.BASE_IMAGE_POSTER_URL + item.posterPath)
-                        .placeholder(R.raw.loading_new_movies)
                         .error(R.drawable.ic_not_found_album)
                         .centerCrop()
+                        .apply(RequestOptions().override(120, 174))
                         .into(ivPoster)
                 }
             }

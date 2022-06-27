@@ -5,7 +5,7 @@ import com.slailati.android.spectacle.databinding.FragmentRegisterBinding
 
 fun FragmentRegisterBinding.isValidCredentials(): Boolean {
     if (!Patterns.EMAIL_ADDRESS.matcher(etEmail.text.toString()).matches()) {
-        etEmail.error = "Email inválido."
+        etEmail.error = "O email inserido é inválido."
         return false
     }
     if (etPassword.text.toString().length < 6) {

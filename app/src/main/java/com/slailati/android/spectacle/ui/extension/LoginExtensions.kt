@@ -9,11 +9,11 @@ import com.slailati.android.spectacle.databinding.FragmentRegisterBinding
 
 fun FragmentLoginBinding.isValidCredentials(): Boolean {
     if (!Patterns.EMAIL_ADDRESS.matcher(etEmail.text.toString()).matches()) {
-        etEmail.error = "Email inválido."
+        etEmail.error = "O email inserido é inválido."
         return false
     }
     if (etPassword.text.toString().length < 6) {
-        etPassword.error = "Senha deve conter pelo menos 6 caracteres."
+        etPassword.error = "A senha deve conter pelo menos 6 caracteres."
         return false
     }
     return true

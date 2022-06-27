@@ -21,8 +21,7 @@ class UserViewModel(
     private lateinit var _isUserRegistered: LiveData<Response<User>>
     fun isUserRegistered() = _isUserRegistered
 
-    private lateinit var _isLoggedIn: LiveData<Response<Profile>>
-    fun isLoggedIn() = _isLoggedIn
+    fun isLoggedIn() = firebaseAuthRepository.isLoggedIn()
 
     private val _isAlreadyLoggedIn: MutableSharedFlow<Boolean> = MutableSharedFlow()
     fun isAlreadyLoggedIn() = _isAlreadyLoggedIn.asSharedFlow()
@@ -32,7 +31,7 @@ class UserViewModel(
     }
 
     fun insertProfile(profile: Profile) {
-        viewModelScope.launch {
+        CoroutineScope(Dispatchers.Main).launch {
             userRepository.insertProfile(profile)
         }
     }
@@ -43,9 +42,7 @@ class UserViewModel(
         }
     }
 
-    fun login(user: User) {
-        _isLoggedIn = firebaseAuthRepository.login(user)
-    }
+    fun login(user: User) = firebaseAuthRepository.login(user)
 
     fun logout() {
         viewModelScope.launch {
