@@ -41,6 +41,7 @@ __-------------- Novos Filmes (por gênero)__
 - Lottie
 - DataStore
 - LiveData
+- FLow
 - OkHttp3
 - Gson
 
