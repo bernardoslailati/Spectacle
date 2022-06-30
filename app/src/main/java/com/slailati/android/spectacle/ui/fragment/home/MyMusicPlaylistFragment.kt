@@ -17,6 +17,7 @@ import com.slailati.android.spectacle.R
 import com.slailati.android.spectacle.databinding.FragmentMyMusicPlaylistBinding
 import com.slailati.android.spectacle.ui.extension.hideKeyboard
 import com.slailati.android.spectacle.ui.extension.isNetworkAvailable
+import com.slailati.android.spectacle.ui.extension.setAlbumCoverPreviews
 import com.slailati.android.spectacle.ui.fragment.BaseFragment
 import com.slailati.android.spectacle.ui.utils.adapter.MyMusicsPlaylistAdapter
 import com.slailati.android.spectacle.ui.viewmodel.MusicViewModel
@@ -128,18 +129,19 @@ class MyMusicPlaylistFragment : BaseFragment() {
             val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
             itemTouchHelper.attachToRecyclerView(rvMyMusicPlaylist)
             rvMyMusicPlaylist.adapter = MyMusicsPlaylistAdapter()
+
+            musicViewModel.getMyMusicsPlaylist()
         }
     }
 
     override fun addObservers() {
         super.addObservers()
 
-        musicViewModel.getMyMusicsPlaylist()
-
         musicViewModel.allMyMusicsPlaylist().observe(viewLifecycleOwner) {
             it?.let { myMusicsPlaylist ->
                 (binding.rvMyMusicPlaylist.adapter as? MyMusicsPlaylistAdapter)?.submitList(
                     myMusicsPlaylist)
+                binding.setAlbumCoverPreviews(myMusicsPlaylist.map { myMusic -> myMusic.albumCoverUrl })
             }
         }
     }

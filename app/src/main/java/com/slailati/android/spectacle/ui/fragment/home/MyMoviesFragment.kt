@@ -55,95 +55,14 @@ class MyMoviesFragment : BaseFragment() {
                 (binding.rvMyMoviesGenreScienceFiction.adapter as? MyMoviesAdapter)?.filterByTitle(it.toString())
             }
 
-            rvMyMoviesGenreAction.adapter =
-                MyMoviesAdapter(object : OnItemClickListener<MovieModel> {
-                    override fun onAddButtonClick(item: MovieModel) {
-                        super.onAddButtonClick(item)
+            setupMyMovieByGenreLists()
 
-                        if (requireActivity().isNetworkAvailable()) {
-                            NewMoviesBottomSheetDialogFragment(ACTION_ID).show(parentFragmentManager,
-                                NewMoviesBottomSheetDialogFragment.TAG)
-                        }
-                    }
-
-                    override fun onLongClick(item: MovieModel, position: Int) {
-                        super.onLongClick(item, position)
-                        (binding.rvMyMoviesGenreAction.adapter as? MyMoviesAdapter)?.let { adapter ->
-                            movieViewModel.removeMovieFromMyList(item)
-                            adapter.removeAt(position)
-                            movieViewModel.getMyMovies()
-                        }
-                    }
-                })
-            rvMyMoviesGenreAnimation.adapter =
-                MyMoviesAdapter(object : OnItemClickListener<MovieModel> {
-                    override fun onAddButtonClick(item: MovieModel) {
-                        super.onAddButtonClick(item)
-
-                        if (requireActivity().isNetworkAvailable()) {
-                            NewMoviesBottomSheetDialogFragment(ANIMATION_ID).show(
-                                parentFragmentManager,
-                                NewMoviesBottomSheetDialogFragment.TAG)
-                        }
-                    }
-
-                    override fun onLongClick(item: MovieModel, position: Int) {
-                        super.onLongClick(item, position)
-                        (binding.rvMyMoviesGenreAnimation.adapter as? MyMoviesAdapter)?.let { adapter ->
-                            movieViewModel.removeMovieFromMyList(item)
-                            adapter.removeAt(position)
-                            movieViewModel.getMyMovies()
-                        }
-                    }
-                })
-            rvMyMoviesGenreDrama.adapter =
-                MyMoviesAdapter(object : OnItemClickListener<MovieModel> {
-                    override fun onAddButtonClick(item: MovieModel) {
-                        super.onAddButtonClick(item)
-
-                        if (requireActivity().isNetworkAvailable()) {
-                            NewMoviesBottomSheetDialogFragment(DRAMA_ID).show(parentFragmentManager,
-                                NewMoviesBottomSheetDialogFragment.TAG)
-                        }
-                    }
-
-                    override fun onLongClick(item: MovieModel, position: Int) {
-                        super.onLongClick(item, position)
-                        (binding.rvMyMoviesGenreDrama.adapter as? MyMoviesAdapter)?.let { adapter ->
-                            movieViewModel.removeMovieFromMyList(item)
-                            adapter.removeAt(position)
-                            movieViewModel.getMyMovies()
-                        }
-                    }
-                })
-            rvMyMoviesGenreScienceFiction.adapter =
-                MyMoviesAdapter(object : OnItemClickListener<MovieModel> {
-                    override fun onAddButtonClick(item: MovieModel) {
-                        super.onAddButtonClick(item)
-
-                        if (requireActivity().isNetworkAvailable()) {
-                            NewMoviesBottomSheetDialogFragment(SCIENCE_FICTION_ID).show(
-                                parentFragmentManager,
-                                NewMoviesBottomSheetDialogFragment.TAG)
-                        }
-                    }
-
-                    override fun onLongClick(item: MovieModel, position: Int) {
-                        super.onLongClick(item, position)
-                        (binding.rvMyMoviesGenreScienceFiction.adapter as? MyMoviesAdapter)?.let { adapter ->
-                            movieViewModel.removeMovieFromMyList(item)
-                            adapter.removeAt(position)
-                            movieViewModel.getMyMovies()
-                        }
-                    }
-                })
+            movieViewModel.getMyMovies()
         }
     }
 
     override fun addObservers() {
         super.addObservers()
-
-        movieViewModel.getMyMovies()
 
         movieViewModel.allMyMovies().observe(viewLifecycleOwner) {
             it?.let { allMyMovies ->
@@ -173,6 +92,94 @@ class MyMoviesFragment : BaseFragment() {
             }
         }
 
+    }
+
+    private fun FragmentMyMoviesBinding.setupMyMovieByGenreLists() {
+        rvMyMoviesGenreAction.adapter =
+            MyMoviesAdapter(object : OnItemClickListener<MovieModel> {
+                override fun onAddButtonClick(item: MovieModel) {
+                    super.onAddButtonClick(item)
+
+                    if (requireActivity().isNetworkAvailable()) {
+                        NewMoviesBottomSheetDialogFragment(ACTION_ID).show(parentFragmentManager,
+                            NewMoviesBottomSheetDialogFragment.TAG)
+                    }
+                }
+
+                override fun onLongClick(item: MovieModel, position: Int) {
+                    super.onLongClick(item, position)
+                    (binding.rvMyMoviesGenreAction.adapter as? MyMoviesAdapter)?.let { adapter ->
+                        movieViewModel.removeMovieFromMyList(item)
+                        adapter.removeAt(position)
+                        movieViewModel.getMyMovies()
+                    }
+                }
+            })
+
+        rvMyMoviesGenreAnimation.adapter =
+            MyMoviesAdapter(object : OnItemClickListener<MovieModel> {
+                override fun onAddButtonClick(item: MovieModel) {
+                    super.onAddButtonClick(item)
+
+                    if (requireActivity().isNetworkAvailable()) {
+                        NewMoviesBottomSheetDialogFragment(ANIMATION_ID).show(
+                            parentFragmentManager,
+                            NewMoviesBottomSheetDialogFragment.TAG)
+                    }
+                }
+
+                override fun onLongClick(item: MovieModel, position: Int) {
+                    super.onLongClick(item, position)
+                    (binding.rvMyMoviesGenreAnimation.adapter as? MyMoviesAdapter)?.let { adapter ->
+                        movieViewModel.removeMovieFromMyList(item)
+                        adapter.removeAt(position)
+                        movieViewModel.getMyMovies()
+                    }
+                }
+            })
+
+        rvMyMoviesGenreDrama.adapter =
+            MyMoviesAdapter(object : OnItemClickListener<MovieModel> {
+                override fun onAddButtonClick(item: MovieModel) {
+                    super.onAddButtonClick(item)
+
+                    if (requireActivity().isNetworkAvailable()) {
+                        NewMoviesBottomSheetDialogFragment(DRAMA_ID).show(parentFragmentManager,
+                            NewMoviesBottomSheetDialogFragment.TAG)
+                    }
+                }
+
+                override fun onLongClick(item: MovieModel, position: Int) {
+                    super.onLongClick(item, position)
+                    (binding.rvMyMoviesGenreDrama.adapter as? MyMoviesAdapter)?.let { adapter ->
+                        movieViewModel.removeMovieFromMyList(item)
+                        adapter.removeAt(position)
+                        movieViewModel.getMyMovies()
+                    }
+                }
+            })
+
+        rvMyMoviesGenreScienceFiction.adapter =
+            MyMoviesAdapter(object : OnItemClickListener<MovieModel> {
+                override fun onAddButtonClick(item: MovieModel) {
+                    super.onAddButtonClick(item)
+
+                    if (requireActivity().isNetworkAvailable()) {
+                        NewMoviesBottomSheetDialogFragment(SCIENCE_FICTION_ID).show(
+                            parentFragmentManager,
+                            NewMoviesBottomSheetDialogFragment.TAG)
+                    }
+                }
+
+                override fun onLongClick(item: MovieModel, position: Int) {
+                    super.onLongClick(item, position)
+                    (binding.rvMyMoviesGenreScienceFiction.adapter as? MyMoviesAdapter)?.let { adapter ->
+                        movieViewModel.removeMovieFromMyList(item)
+                        adapter.removeAt(position)
+                        movieViewModel.getMyMovies()
+                    }
+                }
+            })
     }
 
 }
