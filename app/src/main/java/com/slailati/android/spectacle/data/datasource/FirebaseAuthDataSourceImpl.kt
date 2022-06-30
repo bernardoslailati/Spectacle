@@ -18,24 +18,23 @@ class FirebaseAuthDataSourceImpl(
     private val _isUserRegistered = MutableLiveData<Response<User>>()
     private val _isLoggedIn = MutableLiveData<Response<Profile>>()
 
-    override fun registerUser(user: User): LiveData<Response<User>> {
+    override fun registerUser(user: User) {
         val (email, password) = user
         firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {
                 val successMessage =
-                    "S-P-E-C-T-A-C-L-E!\n\nSeu usuário foi cadastrado com sucesso.\n\nAgora, você já está pronto para entrar e favoritar todos os seus filmes e músicas favoritas..."
+                    "S-P-E-C-T-A-C-L-E!\n\nSeu usuário foi cadastrado com sucesso!\n\nAgora, você já está pronto para entrar e favoritar todos os seus filmes e músicas favoritas."
                 _isUserRegistered.postValue(Response(user, true, successMessage))
             }
             .addOnFailureListener { exception ->
                 val errorMessage: String = when (exception) {
                     is FirebaseAuthWeakPasswordException -> "Senha precisa de pelo menos 6 dígitos."
-                    is FirebaseAuthInvalidCredentialsException -> "E-mail inválido."
-                    is FirebaseAuthUserCollisionException -> "E-mail já cadastrado."
-                    else -> "Erro desconhecido."
+                    is FirebaseAuthInvalidCredentialsException -> "O email inserido é inválido."
+                    is FirebaseAuthUserCollisionException -> "O email inserido já está cadastrado."
+                    else -> "Oops, houve um problema... Tente novamente."
                 }
                 _isUserRegistered.postValue(Response(user, false, errorMessage))
             }
-        return _isUserRegistered
     }
 
     override fun login(user: User) {
@@ -51,9 +50,9 @@ class FirebaseAuthDataSourceImpl(
             }
             .addOnFailureListener { exception ->
                 val errorMessage: String = when (exception) {
-                    is FirebaseAuthInvalidCredentialsException -> "Senha inválida."
-                    is FirebaseAuthInvalidUserException -> "E-mail inválido."
-                    else -> "Erro desconhecido."
+                    is FirebaseAuthInvalidCredentialsException -> "A senha inserida é inválida."
+                    is FirebaseAuthInvalidUserException -> "O email inserido é inválido."
+                    else -> "Oops, houve um problema... Tente novamente."
                 }
                 _isLoggedIn.postValue(Response(Profile(), false, errorMessage))
             }
@@ -72,5 +71,7 @@ class FirebaseAuthDataSourceImpl(
     override fun logout() {}
 
     override fun isLoggedIn(): LiveData<Response<Profile>> = _isLoggedIn
+
+    override fun isRegistered(): MutableLiveData<Response<User>> = _isUserRegistered
 
 }

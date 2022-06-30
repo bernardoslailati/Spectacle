@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import com.slailati.android.spectacle.databinding.BottomsheetDialogFragmentNewMoviesBinding
 import com.slailati.android.spectacle.domain.model.MovieModel
@@ -46,12 +47,16 @@ class NewMoviesBottomSheetDialogFragment(private val genreId: Int) :
                 dialog?.dismiss()
             }
 
+            etSearchNewMovie.doAfterTextChanged {
+                (binding.rvNewMovies.adapter as? NewMoviesAdapter)?.filterByTitle(it.toString())
+            }
+
             rvNewMovies.adapter = NewMoviesAdapter(object : OnItemClickListener<MovieModel> {
                 override fun onAddButtonClick(item: MovieModel) {
                     super.onAddButtonClick(item)
 
                     movieViewModel.allMyMovies().value?.let { myMovies ->
-                        if (myMovies.any { it.remoteId == item.remoteId }) {
+                        if (myMovies.any { it.title == item.title && it.genreIds.contains(genreId) }) {
                             Toast.makeText(requireContext(),
                                 "O filme escolhido já existe na sua lista.",
                                 Toast.LENGTH_SHORT)
@@ -89,8 +94,7 @@ class NewMoviesBottomSheetDialogFragment(private val genreId: Int) :
                 if (isAdded) {
                     movieViewModel.getMyMovies()
                     dialog?.dismiss()
-                }
-                else {
+                } else {
                     Toast.makeText(
                         requireActivity(),
                         "Erro ao adicionar o filme em sua lista. Por favor, tente novamente.",

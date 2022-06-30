@@ -7,12 +7,14 @@ import com.slailati.android.spectacle.data.model.User
 
 interface AuthRepository {
 
-    fun registerUser(user: User): LiveData<Response<User>>
+    fun registerUser(user: User)
 
     fun login(user: User)
 
     fun logout()
 
     fun isLoggedIn(): LiveData<Response<Profile>>
+
+    fun isRegistered(): LiveData<Response<User>>
 
 }

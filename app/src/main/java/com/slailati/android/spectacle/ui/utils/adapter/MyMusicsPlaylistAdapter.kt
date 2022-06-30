@@ -47,13 +47,14 @@ class MyMusicsPlaylistAdapter :
 
     private lateinit var beforeFilterList: List<MusicModel>
     private var isAltered: Boolean = false
-    
+
     fun filterByTitle(searchTitle: String) {
         if (!isAltered) {
             beforeFilterList = currentList
             isAltered = true
 
-            val filteredList = currentList.toMutableList().filter { it.title.lowercase().contains(searchTitle.lowercase()) }
+            val filteredList = currentList.toMutableList()
+                .filter { it.title.lowercase().contains(searchTitle.lowercase()) }
             submitList(filteredList)
         } else {
             if (searchTitle.isEmpty())
@@ -68,8 +69,11 @@ class MyMusicsPlaylistAdapter :
 
     fun removeAt(position: Int) {
         val updatedList = currentList.toMutableList()
-        updatedList.remove(currentList[position])
-        submitList(updatedList)
+        try {
+            updatedList.remove(currentList[position])
+            submitList(updatedList)
+        } catch (e: IndexOutOfBoundsException) {
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

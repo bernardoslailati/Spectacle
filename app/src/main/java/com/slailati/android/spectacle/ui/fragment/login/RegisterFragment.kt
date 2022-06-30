@@ -8,10 +8,12 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.slailati.android.spectacle.data.model.User
 import com.slailati.android.spectacle.databinding.FragmentRegisterBinding
-import com.slailati.android.spectacle.ui.extension.isNetworkAvailable
+import com.slailati.android.spectacle.ui.extension.gone
 import com.slailati.android.spectacle.ui.extension.isValidCredentials
 import com.slailati.android.spectacle.ui.extension.resetErrorMessages
+import com.slailati.android.spectacle.ui.extension.visible
 import com.slailati.android.spectacle.ui.fragment.BaseFragment
+import com.slailati.android.spectacle.ui.fragment.dialog.SpectacleDialogFragment
 import com.slailati.android.spectacle.ui.viewmodel.UserViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -50,19 +52,43 @@ class RegisterFragment : BaseFragment() {
             }
 
             btnRegister.setOnClickListener {
-                if (requireActivity().isNetworkAvailable()) {
-                    if (isValidCredentials()) {
-                        val newUser =
-                            User(email = etEmail.text.toString(), password = etPassword.text.toString())
-                        userViewModel.registerUser(newUser)
-                        userViewModel.isUserRegistered().observe(viewLifecycleOwner) {
-                            it?.let { response ->
-                                Toast.makeText(requireContext(), response.message, Toast.LENGTH_SHORT).show()
-                                if (response.success)
-                                    findNavController().popBackStack()
-                            }
+                if (isValidCredentials()) {
+                    btnRegister.gone()
+                    pbRegisterLoading.visible()
+
+                    val newUser =
+                        User(email = etEmail.text.toString(), password = etPassword.text.toString())
+                    userViewModel.registerUser(newUser)
+                }
+            }
+        }
+    }
+
+    override fun addObservers() {
+        super.addObservers()
+
+        userViewModel.isUserRegistered().observe(viewLifecycleOwner) {
+            it?.let { response ->
+                with(binding) {
+                    btnRegister.visible()
+                    pbRegisterLoading.gone()
+                }
+                if (response.success) {
+                    SpectacleDialogFragment(
+                        title = "Usuário cadastrado com sucesso",
+                        content = response.message,
+                        hasPositiveButton = false,
+                        negativeButtonTitle = "Fechar",
+                        onNegativeButtonClick = {
+                            findNavController().popBackStack()
                         }
-                    }
+                    ).show(parentFragmentManager, SpectacleDialogFragment.TAG)
+                } else {
+                    Toast.makeText(
+                        binding.root.context,
+                        response.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }

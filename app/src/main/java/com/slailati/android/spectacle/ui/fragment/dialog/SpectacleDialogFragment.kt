@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams
+import android.view.Window
 import com.slailati.android.spectacle.databinding.DialogBaseBinding
 import com.slailati.android.spectacle.ui.extension.gone
 import com.slailati.android.spectacle.ui.extension.visible
@@ -20,6 +20,7 @@ class SpectacleDialogFragment(
     private val hasNegativeButton: Boolean = true,
     private val negativeButtonTitle: String = "Cancelar",
     private val onNegativeButtonClick: () -> Unit = {},
+    private val isCanceledOnTouchOutside: Boolean = false,
 ) : BaseDialogFragment() {
 
     private var _binding: DialogBaseBinding? = null
@@ -31,8 +32,15 @@ class SpectacleDialogFragment(
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
-        dialog.window?.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+        dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCanceledOnTouchOutside(isCanceledOnTouchOutside)
         return dialog
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
     override fun onCreateView(

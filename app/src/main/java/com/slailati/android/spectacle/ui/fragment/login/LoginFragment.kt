@@ -45,7 +45,7 @@ class LoginFragment : BaseFragment() {
     override fun setupView() {
         super.setupView()
 
-        userViewModel.checkIfIsAlreadyLogged()
+        userViewModel.checkIfIsAlreadyLoggedIn()
 
         with(binding) {
             tvNotRegistered.setOnClickListener {

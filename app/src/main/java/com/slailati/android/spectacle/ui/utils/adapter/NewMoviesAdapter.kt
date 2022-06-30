@@ -10,11 +10,10 @@ import com.bumptech.glide.request.RequestOptions
 import com.slailati.android.spectacle.R
 import com.slailati.android.spectacle.databinding.ItemNewMovieBinding
 import com.slailati.android.spectacle.domain.model.MovieModel
-import com.slailati.android.spectacle.domain.model.MusicModel
 import com.slailati.android.spectacle.domain.service.TheMovieDatabaseService.Companion.BASE_IMAGE_POSTER_URL
 
 class NewMoviesAdapter(
-    private val onItemClickListener: OnItemClickListener<MovieModel>
+    private val onItemClickListener: OnItemClickListener<MovieModel>,
 ) :
     ListAdapter<MovieModel, NewMoviesAdapter.ViewHolder>(DiffCallback()) {
     class DiffCallback : DiffUtil.ItemCallback<MovieModel>() {
@@ -51,6 +50,28 @@ class NewMoviesAdapter(
                 clContent.setOnClickListener {
                     onItemClickListener.onAddButtonClick(item)
                 }
+            }
+        }
+    }
+
+    private lateinit var beforeFilterList: List<MovieModel>
+    private var isAltered: Boolean = false
+
+    fun filterByTitle(searchTitle: String) {
+        if (!isAltered) {
+            beforeFilterList = currentList
+            isAltered = true
+
+            val filteredList = currentList.toMutableList()
+                .filter { it.title.lowercase().contains(searchTitle.lowercase()) }
+            submitList(filteredList)
+        } else {
+            if (searchTitle.isEmpty())
+                submitList(beforeFilterList)
+            else {
+                val filteredList = currentList.toMutableList()
+                    .filter { it.title.lowercase().contains(searchTitle.lowercase()) }
+                submitList(filteredList)
             }
         }
     }

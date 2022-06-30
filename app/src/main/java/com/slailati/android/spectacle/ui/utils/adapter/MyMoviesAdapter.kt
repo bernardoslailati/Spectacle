@@ -46,7 +46,8 @@ class MyMoviesAdapter(
                     cvVoteAverage.gone()
                     ivPoster.setImageDrawable(null)
                     ivPosterBackground.background =
-                        ContextCompat.getDrawable(itemBinding.root.context, R.color.white_transparent)
+                        ContextCompat.getDrawable(itemBinding.root.context,
+                            R.color.white_transparent)
                     tvTitle.text = itemBinding.root.context.getString(R.string.add_title)
                     clContent.setOnClickListener {
                         onItemClickListener.onAddButtonClick(item)
@@ -61,7 +62,8 @@ class MyMoviesAdapter(
                         true
                     }
                     ivPosterBackground.background =
-                        ContextCompat.getDrawable(itemBinding.root.context, R.drawable.bg_item_my_movie)
+                        ContextCompat.getDrawable(itemBinding.root.context,
+                            R.drawable.bg_item_my_movie)
                     tvVoteAverage.text = item.voteAverage.toString()
                     tvTitle.text = item.title
                     Glide
@@ -84,7 +86,8 @@ class MyMoviesAdapter(
             beforeFilterList = currentList
             isAltered = true
 
-            val filteredList = currentList.toMutableList().filter { it.title.lowercase().contains(searchTitle.lowercase()) }
+            val filteredList = currentList.toMutableList()
+                .filter { it.title.lowercase().contains(searchTitle.lowercase()) }
             submitList(filteredList)
         } else {
             if (searchTitle.isEmpty())
@@ -99,8 +102,11 @@ class MyMoviesAdapter(
 
     fun removeAt(position: Int) {
         val updatedList = currentList.toMutableList()
-        updatedList.remove(currentList[position])
-        submitList(updatedList)
+        try {
+            updatedList.remove(currentList[position])
+            submitList(updatedList)
+        } catch (e: IndexOutOfBoundsException) {
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

@@ -1,9 +1,7 @@
 package com.slailati.android.spectacle.ui.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.slailati.android.spectacle.data.model.Profile
-import com.slailati.android.spectacle.data.model.Response
 import com.slailati.android.spectacle.data.model.User
 import com.slailati.android.spectacle.data.repository.AuthRepository
 import com.slailati.android.spectacle.data.repository.UserRepository
@@ -15,19 +13,18 @@ import kotlinx.coroutines.launch
 
 class UserViewModel(
     private val userRepository: UserRepository,
-    private val firebaseAuthRepository: AuthRepository
-): BaseViewModel() {
+    private val firebaseAuthRepository: AuthRepository,
+) : BaseViewModel() {
 
-    private lateinit var _isUserRegistered: LiveData<Response<User>>
-    fun isUserRegistered() = _isUserRegistered
-
+    fun isUserRegistered() = firebaseAuthRepository.isRegistered()
     fun isLoggedIn() = firebaseAuthRepository.isLoggedIn()
 
-    private val _isAlreadyLoggedIn: MutableSharedFlow<Boolean> = MutableSharedFlow()
-    fun isAlreadyLoggedIn() = _isAlreadyLoggedIn.asSharedFlow()
-
-    fun registerUser(user: User) {
-        _isUserRegistered = firebaseAuthRepository.registerUser(user)
+    fun registerUser(user: User) = firebaseAuthRepository.registerUser(user)
+    fun login(user: User) = firebaseAuthRepository.login(user)
+    fun logout() {
+        viewModelScope.launch {
+            userRepository.logout()
+        }
     }
 
     fun insertProfile(profile: Profile) {
@@ -36,17 +33,12 @@ class UserViewModel(
         }
     }
 
-    fun checkIfIsAlreadyLogged() {
+    private val _isAlreadyLoggedIn: MutableSharedFlow<Boolean> = MutableSharedFlow()
+    fun isAlreadyLoggedIn() = _isAlreadyLoggedIn.asSharedFlow()
+
+    fun checkIfIsAlreadyLoggedIn() {
         CoroutineScope(Dispatchers.Main).launch {
             _isAlreadyLoggedIn.emit(userRepository.isLogged())
-        }
-    }
-
-    fun login(user: User) = firebaseAuthRepository.login(user)
-
-    fun logout() {
-        viewModelScope.launch {
-            userRepository.logout()
         }
     }
 
