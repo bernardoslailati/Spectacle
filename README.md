@@ -45,6 +45,12 @@ __-------------- Novos Filmes (por gênero)__
 - OkHttp3
 - Gson
 
+## Funcionalidades
+- Adicionar (acessando tela de novas músicas) e remover (arrastando para o lado esquerdo item de música) músicas favoritas
+- Adicionar (acessando tela de novos filmes) e remover (ação de segurar item de filmes - _onLongClick()_) filmes favoritos
+- Logar e se manter logado em futuras sessões
+- Registrar usuário (utilizando o _Firebase Authentication_)
+
 ## APIs
 - [Deezer](https://rapidapi.com/deezerdevs/api/deezer-1) (novas músicas)
 - [The Movie Database](https://developers.themoviedb.org/3/getting-started/introduction) (novos filmes por gênero)
