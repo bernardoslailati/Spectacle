@@ -46,9 +46,10 @@ __-------------- Novos Filmes (por gênero)__
 - Gson
 
 ## Funcionalidades
-- Adicionar (acessando tela de novas músicas) e remover (arrastando para o lado esquerdo item de música) músicas favoritas
-- Adicionar (acessando tela de novos filmes) e remover (ação de segurar item de filmes - _onLongClick()_) filmes favoritos
+- Adicionar (acessando tela de novas músicas) e remover (arrastar para o lado esquerdo item de música em lista) músicas favoritas
+- Adicionar (acessando tela de novos filmes) e remover (ação de segurar item de filme em lista - _onLongClick()_) filmes favoritos
 - Logar e se manter logado em futuras sessões
+- Logout
 - Registrar usuário (utilizando o _Firebase Authentication_)
 
 ## APIs
