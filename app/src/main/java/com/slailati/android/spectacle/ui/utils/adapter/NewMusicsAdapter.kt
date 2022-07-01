@@ -50,6 +50,28 @@ class NewMusicsAdapter(
         }
     }
 
+    private lateinit var beforeFilterList: List<MusicModel>
+    private var isAltered: Boolean = false
+
+    fun filterByTitle(searchTitle: String) {
+        if (!isAltered) {
+            beforeFilterList = currentList
+            isAltered = true
+
+            val filteredList = currentList.toMutableList()
+                .filter { it.title.lowercase().contains(searchTitle.lowercase()) }
+            submitList(filteredList)
+        } else {
+            if (searchTitle.isEmpty())
+                submitList(beforeFilterList)
+            else {
+                val filteredList = currentList.toMutableList()
+                    .filter { it.title.lowercase().contains(searchTitle.lowercase()) }
+                submitList(filteredList)
+            }
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
             ItemNewMusicBinding.inflate(LayoutInflater.from(parent.context), parent, false)

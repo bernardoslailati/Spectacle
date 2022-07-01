@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import com.slailati.android.spectacle.databinding.BottomsheetDialogFragmentNewMusicsBinding
 import com.slailati.android.spectacle.domain.model.MusicModel
 import com.slailati.android.spectacle.ui.extension.gone
 import com.slailati.android.spectacle.ui.extension.hideKeyboard
 import com.slailati.android.spectacle.ui.fragment.BaseBottomSheetDialogFragment
+import com.slailati.android.spectacle.ui.utils.adapter.MyMusicsPlaylistAdapter
 import com.slailati.android.spectacle.ui.utils.adapter.NewMusicsAdapter
 import com.slailati.android.spectacle.ui.utils.adapter.OnItemClickListener
 import com.slailati.android.spectacle.ui.viewmodel.MusicViewModel
@@ -47,7 +49,12 @@ class NewMusicsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
 
             clContent.setOnClickListener {
                 etSearchNewMusic.clearFocus()
+                etSearchNewMusic.text = null
                 requireView().hideKeyboard()
+            }
+
+            etSearchNewMusic.doAfterTextChanged {
+                (binding.rvNewMusics.adapter as? NewMusicsAdapter)?.filterByTitle(it.toString())
             }
 
             rvNewMusics.adapter = NewMusicsAdapter(object : OnItemClickListener<MusicModel> {

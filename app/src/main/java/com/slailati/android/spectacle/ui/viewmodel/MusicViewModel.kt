@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MusicViewModel(
     private val musicRepository: MusicRepository
@@ -41,13 +42,15 @@ class MusicViewModel(
 
     fun addMusicToMyPlaylist(music: MusicModel) {
         CoroutineScope(Dispatchers.IO).launch {
-            _isMusicAdded.emit(musicRepository.insertMusicToMyPlaylist(music))
+            val result = musicRepository.insertMusicToMyPlaylist(music)
+            _isMusicAdded.emit(result)
         }
     }
 
     fun removeMusicFromMyPlaylist(music: MusicModel) {
         CoroutineScope(Dispatchers.IO).launch {
-            _isMusicRemoved.emit(musicRepository.deleteMusicFromMyPlaylist(music.localId))
+            val result = musicRepository.deleteMusicFromMyPlaylist(music.localId)
+            _isMusicRemoved.emit(result)
         }
     }
 

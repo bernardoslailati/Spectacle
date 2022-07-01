@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +22,7 @@ import com.slailati.android.spectacle.ui.extension.setAlbumCoverPreviews
 import com.slailati.android.spectacle.ui.fragment.BaseFragment
 import com.slailati.android.spectacle.ui.utils.adapter.MyMusicsPlaylistAdapter
 import com.slailati.android.spectacle.ui.viewmodel.MusicViewModel
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class MyMusicPlaylistFragment : BaseFragment() {
@@ -59,7 +61,6 @@ class MyMusicPlaylistFragment : BaseFragment() {
             (binding.rvMyMusicPlaylist.adapter as? MyMusicsPlaylistAdapter)?.let { adapter ->
                 musicViewModel.removeMusicFromMyPlaylist(adapter.currentList[position])
                 adapter.removeAt(position)
-                musicViewModel.getMyMusicsPlaylist()
             }
         }
 
@@ -112,6 +113,7 @@ class MyMusicPlaylistFragment : BaseFragment() {
 
             clContent.setOnClickListener {
                 etSearchPlaylistMusic.clearFocus()
+                etSearchPlaylistMusic.text = null
                 requireView().hideKeyboard()
             }
 
@@ -142,6 +144,12 @@ class MyMusicPlaylistFragment : BaseFragment() {
                 (binding.rvMyMusicPlaylist.adapter as? MyMusicsPlaylistAdapter)?.submitList(
                     myMusicsPlaylist)
                 binding.setAlbumCoverPreviews(myMusicsPlaylist.map { myMusic -> myMusic.albumCoverUrl })
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            musicViewModel.isMusicRemoved().collectLatest {
+                musicViewModel.getMyMusicsPlaylist()
             }
         }
     }

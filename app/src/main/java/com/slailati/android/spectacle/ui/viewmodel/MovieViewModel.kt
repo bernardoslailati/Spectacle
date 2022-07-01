@@ -45,13 +45,15 @@ class MovieViewModel(
 
     fun addMovieToMyMovies(genreId: Int, movie: MovieModel) {
         CoroutineScope(Dispatchers.IO).launch {
-            _isMovieAdded.emit(movieRepository.insertMovieToMyList(genreId, movie))
+            val result = movieRepository.insertMovieToMyList(genreId, movie)
+            _isMovieAdded.emit(result)
         }
     }
 
     fun removeMovieFromMyList(movie: MovieModel) {
         CoroutineScope(Dispatchers.IO).launch {
-            _isMovieRemoved.emit(movieRepository.deleteMovieFromMyList(movie.localId))
+            val result = movieRepository.deleteMovieFromMyList(movie.localId)
+            _isMovieRemoved.emit(result)
         }
     }
 

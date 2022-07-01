@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.slailati.android.spectacle.databinding.FragmentMyMoviesBinding
 import com.slailati.android.spectacle.domain.model.MovieModel
@@ -12,11 +13,13 @@ import com.slailati.android.spectacle.domain.service.TheMovieDatabaseService.Com
 import com.slailati.android.spectacle.domain.service.TheMovieDatabaseService.Companion.ANIMATION_ID
 import com.slailati.android.spectacle.domain.service.TheMovieDatabaseService.Companion.DRAMA_ID
 import com.slailati.android.spectacle.domain.service.TheMovieDatabaseService.Companion.SCIENCE_FICTION_ID
+import com.slailati.android.spectacle.ui.extension.hideKeyboard
 import com.slailati.android.spectacle.ui.extension.isNetworkAvailable
 import com.slailati.android.spectacle.ui.fragment.BaseFragment
 import com.slailati.android.spectacle.ui.utils.adapter.MyMoviesAdapter
 import com.slailati.android.spectacle.ui.utils.adapter.OnItemClickListener
 import com.slailati.android.spectacle.ui.viewmodel.MovieViewModel
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class MyMoviesFragment : BaseFragment() {
@@ -48,11 +51,18 @@ class MyMoviesFragment : BaseFragment() {
                 findNavController().popBackStack()
             }
 
+            clContent.setOnClickListener {
+                etSearchMyMovies.clearFocus()
+                etSearchMyMovies.text = null
+                requireView().hideKeyboard()
+            }
+
             etSearchMyMovies.doAfterTextChanged {
                 (binding.rvMyMoviesGenreAction.adapter as? MyMoviesAdapter)?.filterByTitle(it.toString())
                 (binding.rvMyMoviesGenreAnimation.adapter as? MyMoviesAdapter)?.filterByTitle(it.toString())
                 (binding.rvMyMoviesGenreDrama.adapter as? MyMoviesAdapter)?.filterByTitle(it.toString())
-                (binding.rvMyMoviesGenreScienceFiction.adapter as? MyMoviesAdapter)?.filterByTitle(it.toString())
+                (binding.rvMyMoviesGenreScienceFiction.adapter as? MyMoviesAdapter)?.filterByTitle(
+                    it.toString())
             }
 
             setupMyMovieByGenreLists()
@@ -92,6 +102,11 @@ class MyMoviesFragment : BaseFragment() {
             }
         }
 
+        lifecycleScope.launchWhenStarted {
+            movieViewModel.isMovieRemoved().collectLatest {
+                movieViewModel.getMyMovies()
+            }
+        }
     }
 
     private fun FragmentMyMoviesBinding.setupMyMovieByGenreLists() {
@@ -111,7 +126,6 @@ class MyMoviesFragment : BaseFragment() {
                     (binding.rvMyMoviesGenreAction.adapter as? MyMoviesAdapter)?.let { adapter ->
                         movieViewModel.removeMovieFromMyList(item)
                         adapter.removeAt(position)
-                        movieViewModel.getMyMovies()
                     }
                 }
             })
@@ -133,7 +147,6 @@ class MyMoviesFragment : BaseFragment() {
                     (binding.rvMyMoviesGenreAnimation.adapter as? MyMoviesAdapter)?.let { adapter ->
                         movieViewModel.removeMovieFromMyList(item)
                         adapter.removeAt(position)
-                        movieViewModel.getMyMovies()
                     }
                 }
             })
@@ -154,7 +167,6 @@ class MyMoviesFragment : BaseFragment() {
                     (binding.rvMyMoviesGenreDrama.adapter as? MyMoviesAdapter)?.let { adapter ->
                         movieViewModel.removeMovieFromMyList(item)
                         adapter.removeAt(position)
-                        movieViewModel.getMyMovies()
                     }
                 }
             })
@@ -176,7 +188,6 @@ class MyMoviesFragment : BaseFragment() {
                     (binding.rvMyMoviesGenreScienceFiction.adapter as? MyMoviesAdapter)?.let { adapter ->
                         movieViewModel.removeMovieFromMyList(item)
                         adapter.removeAt(position)
-                        movieViewModel.getMyMovies()
                     }
                 }
             })

@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.slailati.android.spectacle.databinding.BottomsheetDialogFragmentNewMoviesBinding
 import com.slailati.android.spectacle.domain.model.MovieModel
 import com.slailati.android.spectacle.ui.extension.gone
+import com.slailati.android.spectacle.ui.extension.hideKeyboard
 import com.slailati.android.spectacle.ui.fragment.BaseBottomSheetDialogFragment
 import com.slailati.android.spectacle.ui.utils.adapter.NewMoviesAdapter
 import com.slailati.android.spectacle.ui.utils.adapter.OnItemClickListener
@@ -45,6 +46,12 @@ class NewMoviesBottomSheetDialogFragment(private val genreId: Int) :
         with(binding) {
             ivClose.setOnClickListener {
                 dialog?.dismiss()
+            }
+
+            clContent.setOnClickListener {
+                etSearchNewMovie.clearFocus()
+                etSearchNewMovie.text = null
+                requireView().hideKeyboard()
             }
 
             etSearchNewMovie.doAfterTextChanged {
