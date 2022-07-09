@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
+import com.slailati.android.spectacle.R
 import com.slailati.android.spectacle.databinding.BottomsheetDialogFragmentNewMoviesBinding
 import com.slailati.android.spectacle.domain.model.MovieModel
 import com.slailati.android.spectacle.ui.extension.gone
 import com.slailati.android.spectacle.ui.extension.hideKeyboard
-import com.slailati.android.spectacle.ui.fragment.BaseBottomSheetDialogFragment
+import com.slailati.android.spectacle.ui.base.BaseBottomSheetDialogFragment
+import com.slailati.android.spectacle.ui.extension.toast
 import com.slailati.android.spectacle.ui.utils.adapter.NewMoviesAdapter
 import com.slailati.android.spectacle.ui.utils.adapter.OnItemClickListener
 import com.slailati.android.spectacle.ui.viewmodel.MovieViewModel
@@ -64,10 +66,7 @@ class NewMoviesBottomSheetDialogFragment(private val genreId: Int) :
 
                     movieViewModel.allMyMovies().value?.let { myMovies ->
                         if (myMovies.any { it.title == item.title && it.genreIds.contains(genreId) }) {
-                            Toast.makeText(requireContext(),
-                                "O filme escolhido já existe na sua lista.",
-                                Toast.LENGTH_SHORT)
-                                .show()
+                            requireContext().toast(getString(R.string.movie_already_added))
                             return@onAddButtonClick
                         }
                     }
@@ -102,11 +101,10 @@ class NewMoviesBottomSheetDialogFragment(private val genreId: Int) :
                     movieViewModel.getMyMovies()
                     dialog?.dismiss()
                 } else {
-                    Toast.makeText(
-                        requireActivity(),
+                    requireActivity().toast(
                         "Erro ao adicionar o filme em sua lista. Por favor, tente novamente.",
                         Toast.LENGTH_LONG
-                    ).show()
+                    )
                 }
             }
         }

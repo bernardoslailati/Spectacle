@@ -6,13 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
-import com.slailati.android.spectacle.data.model.User
+import com.slailati.android.spectacle.data.remote.model.User
 import com.slailati.android.spectacle.databinding.FragmentRegisterBinding
-import com.slailati.android.spectacle.ui.extension.gone
-import com.slailati.android.spectacle.ui.extension.isValidCredentials
-import com.slailati.android.spectacle.ui.extension.resetErrorMessages
-import com.slailati.android.spectacle.ui.extension.visible
-import com.slailati.android.spectacle.ui.fragment.BaseFragment
+import com.slailati.android.spectacle.ui.base.BaseFragment
+import com.slailati.android.spectacle.ui.extension.*
 import com.slailati.android.spectacle.ui.fragment.dialog.SpectacleDialogFragment
 import com.slailati.android.spectacle.ui.viewmodel.UserViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -83,13 +80,8 @@ class RegisterFragment : BaseFragment() {
                             findNavController().popBackStack()
                         }
                     ).show(parentFragmentManager, SpectacleDialogFragment.TAG)
-                } else {
-                    Toast.makeText(
-                        binding.root.context,
-                        response.message,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                } else
+                    binding.root.context.toast(response.message)
             }
         }
     }

@@ -8,10 +8,10 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.slailati.android.spectacle.R
-import com.slailati.android.spectacle.data.model.User
+import com.slailati.android.spectacle.data.remote.model.User
 import com.slailati.android.spectacle.databinding.FragmentLoginBinding
 import com.slailati.android.spectacle.ui.extension.*
-import com.slailati.android.spectacle.ui.fragment.BaseFragment
+import com.slailati.android.spectacle.ui.base.BaseFragment
 import com.slailati.android.spectacle.ui.viewmodel.UserViewModel
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -82,9 +82,7 @@ class LoginFragment : BaseFragment() {
                     userViewModel.insertProfile(response.value)
                     findNavController().navigate(R.id.action_loginFragment_to_nav_home_graph)
                 } else
-                    Toast.makeText(requireContext(),
-                        response.message,
-                        Toast.LENGTH_LONG).show()
+                    requireContext().toast(response.message, Toast.LENGTH_LONG)
                 binding.btnLogin.visible()
                 binding.pbLoginLoading.gone()
             }

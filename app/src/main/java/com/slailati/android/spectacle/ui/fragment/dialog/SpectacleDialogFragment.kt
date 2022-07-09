@@ -9,7 +9,7 @@ import android.view.Window
 import com.slailati.android.spectacle.databinding.DialogBaseBinding
 import com.slailati.android.spectacle.ui.extension.gone
 import com.slailati.android.spectacle.ui.extension.visible
-import com.slailati.android.spectacle.ui.fragment.BaseDialogFragment
+import com.slailati.android.spectacle.ui.base.BaseDialogFragment
 
 class SpectacleDialogFragment(
     private val title: String = "",

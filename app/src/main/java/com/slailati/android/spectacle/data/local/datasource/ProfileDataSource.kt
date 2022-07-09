@@ -1,8 +1,8 @@
-package com.slailati.android.spectacle.data.repository
+package com.slailati.android.spectacle.data.local.datasource
 
 import com.slailati.android.spectacle.data.remote.model.Profile
 
-interface UserRepository {
+interface ProfileDataSource {
 
     suspend fun insertProfile(profile: Profile)
 

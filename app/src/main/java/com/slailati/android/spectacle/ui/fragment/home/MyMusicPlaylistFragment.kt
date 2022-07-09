@@ -19,7 +19,7 @@ import com.slailati.android.spectacle.databinding.FragmentMyMusicPlaylistBinding
 import com.slailati.android.spectacle.ui.extension.hideKeyboard
 import com.slailati.android.spectacle.ui.extension.isNetworkAvailable
 import com.slailati.android.spectacle.ui.extension.setAlbumCoverPreviews
-import com.slailati.android.spectacle.ui.fragment.BaseFragment
+import com.slailati.android.spectacle.ui.base.BaseFragment
 import com.slailati.android.spectacle.ui.utils.adapter.MyMusicsPlaylistAdapter
 import com.slailati.android.spectacle.ui.viewmodel.MusicViewModel
 import kotlinx.coroutines.flow.collectLatest

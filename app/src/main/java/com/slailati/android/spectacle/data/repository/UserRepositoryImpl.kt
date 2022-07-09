@@ -1,7 +1,7 @@
 package com.slailati.android.spectacle.data.repository
 
-import com.slailati.android.spectacle.data.datasource.ProfileDataSource
-import com.slailati.android.spectacle.data.model.Profile
+import com.slailati.android.spectacle.data.local.datasource.ProfileDataSource
+import com.slailati.android.spectacle.data.remote.model.Profile
 
 class UserRepositoryImpl(
     private val profileDataSource: ProfileDataSource

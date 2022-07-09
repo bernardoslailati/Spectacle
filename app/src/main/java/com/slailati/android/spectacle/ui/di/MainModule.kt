@@ -1,14 +1,18 @@
 package com.slailati.android.spectacle.ui.di
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Room
+import com.chuckerteam.chucker.api.ChuckerCollector
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.firebase.auth.FirebaseAuth
-import com.slailati.android.spectacle.data.datasource.*
+import com.slailati.android.spectacle.data.remote.datasource.*
+import com.slailati.android.spectacle.data.local.datasource.*
 import com.slailati.android.spectacle.data.repository.*
-import com.slailati.android.spectacle.domain.database.MainDatabase
-import com.slailati.android.spectacle.domain.database.MyMusicsPlaylistDao
-import com.slailati.android.spectacle.domain.service.DeezerService
-import com.slailati.android.spectacle.domain.service.TheMovieDatabaseService
+import com.slailati.android.spectacle.data.local.database.MainDatabase
+import com.slailati.android.spectacle.data.local.database.MyMusicsPlaylistDao
+import com.slailati.android.spectacle.data.remote.service.DeezerService
+import com.slailati.android.spectacle.data.remote.service.TheMovieDatabaseService
 import com.slailati.android.spectacle.ui.viewmodel.MovieViewModel
 import com.slailati.android.spectacle.ui.viewmodel.MusicViewModel
 import com.slailati.android.spectacle.ui.viewmodel.UserViewModel
@@ -64,17 +68,25 @@ val viewModelModule = module {
 }
 
 val networkModule = module {
-    factory { provideOkHttpClient() }
+    factory { provideOkHttpClient(androidContext()) }
     factory { provideDeezerService(get()) }
     factory { provideTheMovieDatabaseService(get()) }
 }
 
-fun provideOkHttpClient(): OkHttpClient {
+fun provideOkHttpClient(context: Context): OkHttpClient {
     val loggingInterceptor = HttpLoggingInterceptor()
     loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 
     return OkHttpClient().newBuilder()
         .addInterceptor(loggingInterceptor)
+        .addInterceptor(
+            ChuckerInterceptor.Builder(context)
+                .collector(ChuckerCollector(context))
+                .maxContentLength(250000L)
+                .redactHeaders(emptySet())
+                .alwaysReadResponseBody(false)
+                .build()
+        )
         .connectTimeout(10, TimeUnit.SECONDS)
         .readTimeout(10, TimeUnit.SECONDS)
         .build()

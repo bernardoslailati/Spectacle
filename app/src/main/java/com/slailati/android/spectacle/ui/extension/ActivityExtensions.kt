@@ -10,9 +10,7 @@ fun Context.isNetworkAvailable(): Boolean {
     val activeNetworkInfo = connectivityManager!!.activeNetworkInfo
 
     if (!(activeNetworkInfo != null && activeNetworkInfo.isConnected))
-        Toast.makeText(this,
-            "Necessário ativar internet para realizar essa ação.",
-            Toast.LENGTH_SHORT).show()
+        this.toast("Necessário ativar internet para realizar essa ação.")
 
     return activeNetworkInfo != null && activeNetworkInfo.isConnected
 }

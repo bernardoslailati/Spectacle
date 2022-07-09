@@ -50,26 +50,24 @@ class NewMusicsAdapter(
         }
     }
 
-    private lateinit var beforeFilterList: List<MusicModel>
-    private var isAltered: Boolean = false
+    private lateinit var originalList: List<MusicModel>
+    private var isFiltered: Boolean = false
 
     fun filterByTitle(searchTitle: String) {
-        if (!isAltered) {
-            beforeFilterList = currentList
-            isAltered = true
-
-            val filteredList = currentList.toMutableList()
-                .filter { it.title.lowercase().contains(searchTitle.lowercase()) }
-            submitList(filteredList)
-        } else {
-            if (searchTitle.isEmpty())
-                submitList(beforeFilterList)
-            else {
-                val filteredList = currentList.toMutableList()
-                    .filter { it.title.lowercase().contains(searchTitle.lowercase()) }
-                submitList(filteredList)
-            }
+        if (!isFiltered) {
+            originalList = currentList
+            isFiltered = true
         }
+
+        if (searchTitle.isEmpty()) {
+            isFiltered = false
+            submitList(originalList)
+            return
+        }
+
+        val filteredList = originalList.toMutableList()
+            .filter { it.title.lowercase().contains(searchTitle.lowercase()) }
+        submitList(filteredList)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

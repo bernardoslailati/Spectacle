@@ -1,10 +1,10 @@
 package com.slailati.android.spectacle.data.repository
 
 import androidx.lifecycle.LiveData
-import com.slailati.android.spectacle.data.datasource.FirebaseAuthDataSource
-import com.slailati.android.spectacle.data.model.Profile
-import com.slailati.android.spectacle.data.model.Response
-import com.slailati.android.spectacle.data.model.User
+import com.slailati.android.spectacle.data.remote.datasource.FirebaseAuthDataSource
+import com.slailati.android.spectacle.data.remote.model.Profile
+import com.slailati.android.spectacle.data.remote.model.Response
+import com.slailati.android.spectacle.data.remote.model.User
 
 class AuthRepositoryImpl(
     private val firebaseAuthDatasource: FirebaseAuthDataSource,

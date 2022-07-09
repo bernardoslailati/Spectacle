@@ -1,7 +1,7 @@
 package com.slailati.android.spectacle.data.repository
 
-import com.slailati.android.spectacle.data.datasource.MyMoviesDataSource
-import com.slailati.android.spectacle.data.datasource.TheMovieDatabaseDataSource
+import com.slailati.android.spectacle.data.local.datasource.MyMoviesDataSource
+import com.slailati.android.spectacle.data.remote.datasource.TheMovieDatabaseDataSource
 import com.slailati.android.spectacle.domain.model.MovieModel
 
 class MovieRepositoryImpl(

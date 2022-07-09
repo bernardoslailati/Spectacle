@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.slailati.android.spectacle.R
 import com.slailati.android.spectacle.databinding.FragmentMenuBinding
-import com.slailati.android.spectacle.ui.fragment.BaseFragment
+import com.slailati.android.spectacle.ui.base.BaseFragment
 import com.slailati.android.spectacle.ui.fragment.dialog.SpectacleDialogFragment
 import com.slailati.android.spectacle.ui.viewmodel.UserViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel

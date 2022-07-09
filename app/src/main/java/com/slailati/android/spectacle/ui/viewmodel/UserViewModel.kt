@@ -1,8 +1,8 @@
 package com.slailati.android.spectacle.ui.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.slailati.android.spectacle.data.model.Profile
-import com.slailati.android.spectacle.data.model.User
+import com.slailati.android.spectacle.data.remote.model.Profile
+import com.slailati.android.spectacle.data.remote.model.User
 import com.slailati.android.spectacle.data.repository.AuthRepository
 import com.slailati.android.spectacle.data.repository.UserRepository
 import kotlinx.coroutines.CoroutineScope

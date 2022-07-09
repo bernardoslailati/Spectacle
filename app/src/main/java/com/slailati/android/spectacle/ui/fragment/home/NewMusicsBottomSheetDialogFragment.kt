@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
+import com.slailati.android.spectacle.R
 import com.slailati.android.spectacle.databinding.BottomsheetDialogFragmentNewMusicsBinding
 import com.slailati.android.spectacle.domain.model.MusicModel
 import com.slailati.android.spectacle.ui.extension.gone
 import com.slailati.android.spectacle.ui.extension.hideKeyboard
-import com.slailati.android.spectacle.ui.fragment.BaseBottomSheetDialogFragment
-import com.slailati.android.spectacle.ui.utils.adapter.MyMusicsPlaylistAdapter
+import com.slailati.android.spectacle.ui.base.BaseBottomSheetDialogFragment
+import com.slailati.android.spectacle.ui.extension.isNetworkAvailable
+import com.slailati.android.spectacle.ui.extension.toast
 import com.slailati.android.spectacle.ui.utils.adapter.NewMusicsAdapter
 import com.slailati.android.spectacle.ui.utils.adapter.OnItemClickListener
 import com.slailati.android.spectacle.ui.viewmodel.MusicViewModel
@@ -62,9 +64,7 @@ class NewMusicsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
                     super.onAddButtonClick(item)
                     musicViewModel.allMyMusicsPlaylist().value?.let { myMusics ->
                         if (myMusics.any { it.title == item.title }) {
-                            Toast.makeText(requireContext(),
-                                "A música escolhida já existe na sua playlist.",
-                                Toast.LENGTH_SHORT).show()
+                            requireContext().toast(getString(R.string.music_already_added))
                             return@onAddButtonClick
                         }
                     }
@@ -94,13 +94,9 @@ class NewMusicsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
                 if (isAdded) {
                     musicViewModel.getMyMusicsPlaylist()
                     dialog?.dismiss()
-                } else {
-                    Toast.makeText(
-                        requireActivity(),
-                        "Erro ao adicionar a música em sua playlist. Por favor, tente novamente.",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+                } else
+                    requireActivity().toast("Erro ao adicionar a música em sua playlist. Por favor, tente novamente.",
+                        Toast.LENGTH_LONG)
             }
         }
     }

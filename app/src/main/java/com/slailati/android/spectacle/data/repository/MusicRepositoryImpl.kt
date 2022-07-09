@@ -1,7 +1,7 @@
 package com.slailati.android.spectacle.data.repository
 
-import com.slailati.android.spectacle.data.datasource.DeezerMusicDataSource
-import com.slailati.android.spectacle.data.datasource.MyMusicsPlaylistDataSource
+import com.slailati.android.spectacle.data.remote.datasource.DeezerMusicDataSource
+import com.slailati.android.spectacle.data.local.datasource.MyMusicsPlaylistDataSource
 import com.slailati.android.spectacle.domain.model.MusicModel
 
 class MusicRepositoryImpl(

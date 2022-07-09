@@ -10,7 +10,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.slailati.android.spectacle.R
 import com.slailati.android.spectacle.databinding.ItemNewMovieBinding
 import com.slailati.android.spectacle.domain.model.MovieModel
-import com.slailati.android.spectacle.domain.service.TheMovieDatabaseService.Companion.BASE_IMAGE_POSTER_URL
+import com.slailati.android.spectacle.data.remote.service.TheMovieDatabaseService.Companion.BASE_IMAGE_POSTER_URL
+import com.slailati.android.spectacle.domain.model.MusicModel
 
 class NewMoviesAdapter(
     private val onItemClickListener: OnItemClickListener<MovieModel>,
@@ -54,26 +55,24 @@ class NewMoviesAdapter(
         }
     }
 
-    private lateinit var beforeFilterList: List<MovieModel>
-    private var isAltered: Boolean = false
+    private lateinit var originalList: List<MovieModel>
+    private var isFiltered: Boolean = false
 
     fun filterByTitle(searchTitle: String) {
-        if (!isAltered) {
-            beforeFilterList = currentList
-            isAltered = true
-
-            val filteredList = currentList.toMutableList()
-                .filter { it.title.lowercase().contains(searchTitle.lowercase()) }
-            submitList(filteredList)
-        } else {
-            if (searchTitle.isEmpty())
-                submitList(beforeFilterList)
-            else {
-                val filteredList = currentList.toMutableList()
-                    .filter { it.title.lowercase().contains(searchTitle.lowercase()) }
-                submitList(filteredList)
-            }
+        if (!isFiltered) {
+            originalList = currentList
+            isFiltered = true
         }
+
+        if (searchTitle.isEmpty()) {
+            isFiltered = false
+            submitList(originalList)
+            return
+        }
+
+        val filteredList = originalList.toMutableList()
+            .filter { it.title.lowercase().contains(searchTitle.lowercase()) }
+        submitList(filteredList)
     }
 
     fun addNewPage(newPageMovies: List<MovieModel>) {

@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import com.slailati.android.spectacle.R
 import com.slailati.android.spectacle.databinding.ActivityMainBinding
-import com.slailati.android.spectacle.ui.fragment.BaseFragment
+import com.slailati.android.spectacle.ui.base.BaseFragment
 
 class MainActivity : AppCompatActivity() {
 
