@@ -17,6 +17,12 @@ class NewMoviesAdapter(
     private val onItemClickListener: OnItemClickListener<MovieModel>,
 ) :
     ListAdapter<MovieModel, NewMoviesAdapter.ViewHolder>(DiffCallback()) {
+
+    companion object {
+        const val POSTER_WIDTH = 180
+        const val POSTER_HEIGHT = 261
+    }
+
     class DiffCallback : DiffUtil.ItemCallback<MovieModel>() {
         override fun areItemsTheSame(
             oldItem: MovieModel,
@@ -46,7 +52,7 @@ class NewMoviesAdapter(
                     .load(BASE_IMAGE_POSTER_URL + item.posterPath)
                     .error(R.drawable.ic_not_found_album)
                     .centerCrop()
-                    .apply(RequestOptions().override(180, 261))
+                    .apply(RequestOptions().override(POSTER_WIDTH, POSTER_HEIGHT))
                     .into(ivPoster)
                 clContent.setOnClickListener {
                     onItemClickListener.onAddButtonClick(item)

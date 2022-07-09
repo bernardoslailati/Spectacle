@@ -22,6 +22,8 @@ class MyMoviesAdapter(
 
     companion object {
         const val ADD_MOVIE_ITEM_INDEX = 0
+        const val POSTER_WIDTH = 120
+        const val POSTER_HEIGHT = 174
     }
 
     class DiffCallback : DiffUtil.ItemCallback<MovieModel>() {
@@ -74,7 +76,7 @@ class MyMoviesAdapter(
                 .load(TheMovieDatabaseService.BASE_IMAGE_POSTER_URL + item.posterPath)
                 .error(R.drawable.ic_not_found_album)
                 .centerCrop()
-                .apply(RequestOptions().override(120, 174))
+                .apply(RequestOptions().override(POSTER_WIDTH, POSTER_HEIGHT))
                 .into(ivPoster)
         }
 
