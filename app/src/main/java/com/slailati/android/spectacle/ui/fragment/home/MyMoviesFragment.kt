@@ -1,21 +1,20 @@
 package com.slailati.android.spectacle.ui.fragment.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
+import com.slailati.android.spectacle.data.remote.enum.MovieGenresEnum.*
 import com.slailati.android.spectacle.databinding.FragmentMyMoviesBinding
 import com.slailati.android.spectacle.domain.model.MovieModel
-import com.slailati.android.spectacle.data.remote.service.TheMovieDatabaseService.Companion.ACTION_ID
-import com.slailati.android.spectacle.data.remote.service.TheMovieDatabaseService.Companion.ANIMATION_ID
-import com.slailati.android.spectacle.data.remote.service.TheMovieDatabaseService.Companion.DRAMA_ID
-import com.slailati.android.spectacle.data.remote.service.TheMovieDatabaseService.Companion.SCIENCE_FICTION_ID
+import com.slailati.android.spectacle.ui.base.BaseFragment
 import com.slailati.android.spectacle.ui.extension.hideKeyboard
 import com.slailati.android.spectacle.ui.extension.isNetworkAvailable
-import com.slailati.android.spectacle.ui.base.BaseFragment
 import com.slailati.android.spectacle.ui.utils.adapter.MyMoviesAdapter
 import com.slailati.android.spectacle.ui.utils.adapter.OnItemClickListener
 import com.slailati.android.spectacle.ui.viewmodel.MovieViewModel
@@ -58,10 +57,10 @@ class MyMoviesFragment : BaseFragment() {
             }
 
             etSearchMyMovies.doAfterTextChanged {
-                (binding.rvMyMoviesGenreAction.adapter as? MyMoviesAdapter)?.filterByTitle(it.toString())
-                (binding.rvMyMoviesGenreAnimation.adapter as? MyMoviesAdapter)?.filterByTitle(it.toString())
-                (binding.rvMyMoviesGenreDrama.adapter as? MyMoviesAdapter)?.filterByTitle(it.toString())
-                (binding.rvMyMoviesGenreScienceFiction.adapter as? MyMoviesAdapter)?.filterByTitle(
+                binding.rvMyMoviesGenreAction.myMoviesAdapter()?.filterByTitle(it.toString())
+                binding.rvMyMoviesGenreAnimation.myMoviesAdapter()?.filterByTitle(it.toString())
+                binding.rvMyMoviesGenreDrama.myMoviesAdapter()?.filterByTitle(it.toString())
+                binding.rvMyMoviesGenreScienceFiction.myMoviesAdapter()?.filterByTitle(
                     it.toString())
             }
 
@@ -76,28 +75,15 @@ class MyMoviesFragment : BaseFragment() {
 
         movieViewModel.allMyMovies().observe(viewLifecycleOwner) {
             it?.let { allMyMovies ->
-                val emptyMovie = MovieModel(genreIds = emptyList(),
-                    title = "",
-                    voteAverage = -1f,
-                    posterPath = "")
-                val actionMovies = listOf(emptyMovie) + allMyMovies.filter { movie ->
-                    movie.genreIds.contains(ACTION_ID)
-                }
-                val animationMovies = listOf(emptyMovie) + allMyMovies.filter { movie ->
-                    movie.genreIds.contains(ANIMATION_ID)
-                }
-                val dramaMovies = listOf(emptyMovie) +
-                        allMyMovies.filter { movie -> movie.genreIds.contains(DRAMA_ID) }
-                val scienceFictionMovies = listOf(emptyMovie) +
-                        allMyMovies.filter { movie -> movie.genreIds.contains(SCIENCE_FICTION_ID) }
+                val myMoviesByGenre = createMyMoviesListsByGenre(allMyMovies)
 
                 binding.apply {
-                    (rvMyMoviesGenreAction.adapter as? MyMoviesAdapter)?.submitList(actionMovies)
-                    (rvMyMoviesGenreAnimation.adapter as? MyMoviesAdapter)?.submitList(
-                        animationMovies)
-                    (rvMyMoviesGenreDrama.adapter as? MyMoviesAdapter)?.submitList(dramaMovies)
-                    (rvMyMoviesGenreScienceFiction.adapter as? MyMoviesAdapter)?.submitList(
-                        scienceFictionMovies)
+                    rvMyMoviesGenreAction.myMoviesAdapter()?.submitList(myMoviesByGenre[ACTION.id])
+                    rvMyMoviesGenreAnimation.myMoviesAdapter()
+                        ?.submitList(myMoviesByGenre[ANIMATION.id])
+                    rvMyMoviesGenreDrama.myMoviesAdapter()?.submitList(myMoviesByGenre[DRAMA.id])
+                    rvMyMoviesGenreScienceFiction.myMoviesAdapter()
+                        ?.submitList(myMoviesByGenre[SCIENCE_FICTION.id])
                 }
             }
         }
@@ -109,6 +95,30 @@ class MyMoviesFragment : BaseFragment() {
         }
     }
 
+    private fun RecyclerView.myMoviesAdapter(): MyMoviesAdapter? {
+        return this.adapter as? MyMoviesAdapter
+    }
+
+    private fun createMyMoviesListsByGenre(allMyMovies: List<MovieModel>): Map<Int, List<MovieModel>> {
+        val addNewMovie = createAddNewMovieInstance()
+        val myMoviesByGenreMap: MutableMap<Int, List<MovieModel>> = mutableMapOf()
+        values().forEach { movieGenre ->
+            myMoviesByGenreMap[movieGenre.id] = listOf(addNewMovie) + allMyMovies.filter { movie ->
+                movie.genreIds.contains(movieGenre.id)
+            }
+        }
+        return myMoviesByGenreMap
+    }
+
+    private fun createAddNewMovieInstance(): MovieModel {
+        return MovieModel(
+            genreIds = emptyList(),
+            title = "",
+            voteAverage = -1f,
+            posterPath = ""
+        )
+    }
+
     private fun FragmentMyMoviesBinding.setupMyMovieByGenreLists() {
         rvMyMoviesGenreAction.adapter =
             MyMoviesAdapter(object : OnItemClickListener<MovieModel> {
@@ -116,14 +126,14 @@ class MyMoviesFragment : BaseFragment() {
                     super.onAddButtonClick(item)
 
                     if (requireActivity().isNetworkAvailable()) {
-                        NewMoviesBottomSheetDialogFragment(ACTION_ID).show(parentFragmentManager,
+                        NewMoviesBottomSheetDialogFragment(ACTION.id).show(parentFragmentManager,
                             NewMoviesBottomSheetDialogFragment.TAG)
                     }
                 }
 
                 override fun onLongClick(item: MovieModel, position: Int) {
                     super.onLongClick(item, position)
-                    (binding.rvMyMoviesGenreAction.adapter as? MyMoviesAdapter)?.let { adapter ->
+                    binding.rvMyMoviesGenreAction.myMoviesAdapter()?.let { adapter ->
                         movieViewModel.removeMovieFromMyList(item)
                         adapter.removeAt(position)
                     }
@@ -136,7 +146,7 @@ class MyMoviesFragment : BaseFragment() {
                     super.onAddButtonClick(item)
 
                     if (requireActivity().isNetworkAvailable()) {
-                        NewMoviesBottomSheetDialogFragment(ANIMATION_ID).show(
+                        NewMoviesBottomSheetDialogFragment(ANIMATION.id).show(
                             parentFragmentManager,
                             NewMoviesBottomSheetDialogFragment.TAG)
                     }
@@ -144,7 +154,7 @@ class MyMoviesFragment : BaseFragment() {
 
                 override fun onLongClick(item: MovieModel, position: Int) {
                     super.onLongClick(item, position)
-                    (binding.rvMyMoviesGenreAnimation.adapter as? MyMoviesAdapter)?.let { adapter ->
+                    binding.rvMyMoviesGenreAnimation.myMoviesAdapter()?.let { adapter ->
                         movieViewModel.removeMovieFromMyList(item)
                         adapter.removeAt(position)
                     }
@@ -157,14 +167,14 @@ class MyMoviesFragment : BaseFragment() {
                     super.onAddButtonClick(item)
 
                     if (requireActivity().isNetworkAvailable()) {
-                        NewMoviesBottomSheetDialogFragment(DRAMA_ID).show(parentFragmentManager,
+                        NewMoviesBottomSheetDialogFragment(DRAMA.id).show(parentFragmentManager,
                             NewMoviesBottomSheetDialogFragment.TAG)
                     }
                 }
 
                 override fun onLongClick(item: MovieModel, position: Int) {
                     super.onLongClick(item, position)
-                    (binding.rvMyMoviesGenreDrama.adapter as? MyMoviesAdapter)?.let { adapter ->
+                    binding.rvMyMoviesGenreDrama.myMoviesAdapter()?.let { adapter ->
                         movieViewModel.removeMovieFromMyList(item)
                         adapter.removeAt(position)
                     }
@@ -177,7 +187,7 @@ class MyMoviesFragment : BaseFragment() {
                     super.onAddButtonClick(item)
 
                     if (requireActivity().isNetworkAvailable()) {
-                        NewMoviesBottomSheetDialogFragment(SCIENCE_FICTION_ID).show(
+                        NewMoviesBottomSheetDialogFragment(SCIENCE_FICTION.id).show(
                             parentFragmentManager,
                             NewMoviesBottomSheetDialogFragment.TAG)
                     }
@@ -185,7 +195,7 @@ class MyMoviesFragment : BaseFragment() {
 
                 override fun onLongClick(item: MovieModel, position: Int) {
                     super.onLongClick(item, position)
-                    (binding.rvMyMoviesGenreScienceFiction.adapter as? MyMoviesAdapter)?.let { adapter ->
+                    binding.rvMyMoviesGenreScienceFiction.myMoviesAdapter()?.let { adapter ->
                         movieViewModel.removeMovieFromMyList(item)
                         adapter.removeAt(position)
                     }

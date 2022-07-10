@@ -1,8 +1,8 @@
 package com.slailati.android.spectacle.data.local.datasource
 
 import com.slailati.android.spectacle.data.local.database.MainDatabase
-import com.slailati.android.spectacle.data.mapper.toDomainMovieList
-import com.slailati.android.spectacle.data.mapper.toEntity
+import com.slailati.android.spectacle.domain.mapper.toDomainMovieList
+import com.slailati.android.spectacle.domain.mapper.toEntity
 import com.slailati.android.spectacle.domain.model.MovieModel
 
 class MyMoviesDataSourceImpl(

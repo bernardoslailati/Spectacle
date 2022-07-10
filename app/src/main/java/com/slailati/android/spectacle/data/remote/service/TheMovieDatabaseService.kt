@@ -8,10 +8,6 @@ interface TheMovieDatabaseService {
 
     companion object {
         const val BASE_IMAGE_POSTER_URL = "https://image.tmdb.org/t/p/original"
-        const val ACTION_ID = 28
-        const val ANIMATION_ID = 16
-        const val DRAMA_ID = 18
-        const val SCIENCE_FICTION_ID = 878
     }
 
     @GET("movie/popular")

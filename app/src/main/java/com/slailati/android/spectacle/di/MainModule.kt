@@ -1,4 +1,4 @@
-package com.slailati.android.spectacle.ui.di
+package com.slailati.android.spectacle.di
 
 import android.app.Application
 import android.content.Context
@@ -6,13 +6,17 @@ import androidx.room.Room
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
 import com.slailati.android.spectacle.data.remote.datasource.*
 import com.slailati.android.spectacle.data.local.datasource.*
-import com.slailati.android.spectacle.data.repository.*
+import com.slailati.android.spectacle.domain.repository.*
 import com.slailati.android.spectacle.data.local.database.MainDatabase
 import com.slailati.android.spectacle.data.local.database.MyMusicsPlaylistDao
 import com.slailati.android.spectacle.data.remote.service.DeezerService
 import com.slailati.android.spectacle.data.remote.service.TheMovieDatabaseService
+import com.slailati.android.spectacle.data.util.Converters
+import com.slailati.android.spectacle.data.util.GsonParser
+import com.slailati.android.spectacle.data.util.JsonParser
 import com.slailati.android.spectacle.ui.viewmodel.MovieViewModel
 import com.slailati.android.spectacle.ui.viewmodel.MusicViewModel
 import com.slailati.android.spectacle.ui.viewmodel.UserViewModel
@@ -25,6 +29,15 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+
+val dataModule = module {
+    single<JsonParser> {
+        GsonParser(Gson().newBuilder().serializeNulls().setPrettyPrinting().create())
+    }
+    single<Converters> {
+        Converters(get())
+    }
+}
 
 val databaseModule = module {
     single { provideDatabase(androidApplication()) }
@@ -54,7 +67,7 @@ val dataSourceModule = module {
     single<MyMusicsPlaylistDataSource> { MyMusicsPlaylistDataSourceImpl(get()) }
     single<TheMovieDatabaseDataSource> { TheMovieDatabaseDataSourceImpl(get()) }
     single<MyMoviesDataSource> { MyMoviesDataSourceImpl(get()) }
-    single<ProfileDataSource> { ProfileDataSourceImpl(androidContext()) }
+    single<ProfileDataSource> { ProfileDataSourceImpl(androidContext(), get()) }
 }
 
 val firebaseModule = module {

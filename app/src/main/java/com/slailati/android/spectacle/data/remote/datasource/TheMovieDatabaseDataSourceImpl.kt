@@ -1,6 +1,6 @@
 package com.slailati.android.spectacle.data.remote.datasource
 
-import com.slailati.android.spectacle.data.mapper.toDomainMusicList
+import com.slailati.android.spectacle.domain.mapper.toDomainMusicList
 import com.slailati.android.spectacle.domain.model.MovieModel
 import com.slailati.android.spectacle.data.remote.service.TheMovieDatabaseService
 

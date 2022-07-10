@@ -7,12 +7,15 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.slailati.android.spectacle.data.remote.model.Profile
+import com.slailati.android.spectacle.data.util.Converters
+import com.slailati.android.spectacle.data.util.GsonParser
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 
 class ProfileDataSourceImpl(
     private val context: Context,
+    private val converters: Converters,
 ) : ProfileDataSource {
 
     companion object {
@@ -33,7 +36,7 @@ class ProfileDataSourceImpl(
 
     override suspend fun insertProfile(profile: Profile) {
         context.dataStore.edit { settings ->
-            settings[USER_PROFILE_PREFERENCES_KEY] = profile.uuid
+            settings[USER_PROFILE_PREFERENCES_KEY] = converters.toProfileJson(profile)
         }
     }
 

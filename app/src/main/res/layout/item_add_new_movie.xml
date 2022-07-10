@@ -44,7 +44,7 @@
         android:foregroundGravity="center"
         android:translationZ="90dp"
         app:cardBackgroundColor="@color/white_transparent"
-        app:cardCornerRadius="48dp"
+        app:cardCornerRadius="24dp"
         app:cardElevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

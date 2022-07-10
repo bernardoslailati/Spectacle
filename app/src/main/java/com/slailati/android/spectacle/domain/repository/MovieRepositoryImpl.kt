@@ -1,4 +1,4 @@
-package com.slailati.android.spectacle.data.repository
+package com.slailati.android.spectacle.domain.repository
 
 import com.slailati.android.spectacle.data.local.datasource.MyMoviesDataSource
 import com.slailati.android.spectacle.data.remote.datasource.TheMovieDatabaseDataSource

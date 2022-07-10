@@ -59,7 +59,7 @@
         android:foregroundGravity="center"
         android:translationZ="90dp"
         app:cardBackgroundColor="@color/white_transparent"
-        app:cardCornerRadius="64dp"
+        app:cardCornerRadius="32dp"
         app:cardElevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -82,7 +82,7 @@
         android:layout_margin="8dp"
         android:translationZ="90dp"
         app:cardBackgroundColor="@color/white_transparent"
-        app:cardCornerRadius="36dp"
+        app:cardCornerRadius="18dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">

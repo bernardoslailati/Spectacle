@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    tools:background="@drawable/bg_gradient_screen_default"
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -47,7 +48,7 @@
         android:layout_height="48dp"
         android:layout_margin="16dp"
         app:contentPadding="12dp"
-        app:cardCornerRadius="48dp"
+        app:cardCornerRadius="24dp"
         app:cardElevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

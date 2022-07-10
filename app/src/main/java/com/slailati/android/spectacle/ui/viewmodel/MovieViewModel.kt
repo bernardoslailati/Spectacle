@@ -1,9 +1,8 @@
 package com.slailati.android.spectacle.ui.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.slailati.android.spectacle.data.repository.MovieRepository
+import com.slailati.android.spectacle.domain.repository.MovieRepository
 import com.slailati.android.spectacle.domain.model.MovieModel
-import com.slailati.android.spectacle.domain.model.MusicModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

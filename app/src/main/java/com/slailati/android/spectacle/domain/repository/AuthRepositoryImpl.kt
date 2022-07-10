@@ -1,4 +1,4 @@
-package com.slailati.android.spectacle.data.repository
+package com.slailati.android.spectacle.domain.repository
 
 import androidx.lifecycle.LiveData
 import com.slailati.android.spectacle.data.remote.datasource.FirebaseAuthDataSource

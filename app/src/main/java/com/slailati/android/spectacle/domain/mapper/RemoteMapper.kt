@@ -1,4 +1,4 @@
-package com.slailati.android.spectacle.data.mapper
+package com.slailati.android.spectacle.domain.mapper
 
 import com.slailati.android.spectacle.data.local.model.DeezerMusicsResultApiModel
 import com.slailati.android.spectacle.data.local.model.MusicApiModel

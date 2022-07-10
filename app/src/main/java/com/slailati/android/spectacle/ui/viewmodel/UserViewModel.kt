@@ -3,8 +3,8 @@ package com.slailati.android.spectacle.ui.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.slailati.android.spectacle.data.remote.model.Profile
 import com.slailati.android.spectacle.data.remote.model.User
-import com.slailati.android.spectacle.data.repository.AuthRepository
-import com.slailati.android.spectacle.data.repository.UserRepository
+import com.slailati.android.spectacle.domain.repository.AuthRepository
+import com.slailati.android.spectacle.domain.repository.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow

@@ -61,7 +61,7 @@
         android:foregroundGravity="center"
         android:translationZ="90dp"
         app:cardBackgroundColor="@color/medium_purple"
-        app:cardCornerRadius="36dp"
+        app:cardCornerRadius="12dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -93,7 +93,7 @@
         android:translationZ="90dp"
         android:visibility="gone"
         app:cardBackgroundColor="@color/white_transparent"
-        app:cardCornerRadius="48dp"
+        app:cardCornerRadius="24dp"
         app:cardElevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

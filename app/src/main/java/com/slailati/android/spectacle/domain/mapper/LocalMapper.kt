@@ -1,4 +1,4 @@
-package com.slailati.android.spectacle.data.mapper
+package com.slailati.android.spectacle.domain.mapper
 
 import com.slailati.android.spectacle.data.local.model.MovieEntity
 import com.slailati.android.spectacle.data.local.model.MusicEntity
