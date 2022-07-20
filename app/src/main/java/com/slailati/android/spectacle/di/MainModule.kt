@@ -14,9 +14,9 @@ import com.slailati.android.spectacle.data.local.database.MainDatabase
 import com.slailati.android.spectacle.data.local.database.MyMusicsPlaylistDao
 import com.slailati.android.spectacle.data.remote.service.DeezerService
 import com.slailati.android.spectacle.data.remote.service.TheMovieDatabaseService
-import com.slailati.android.spectacle.data.util.Converters
-import com.slailati.android.spectacle.data.util.GsonParser
-import com.slailati.android.spectacle.data.util.JsonParser
+import com.slailati.android.spectacle.data.util.converter.Converters
+import com.slailati.android.spectacle.data.util.converter.GsonParser
+import com.slailati.android.spectacle.data.util.converter.JsonParser
 import com.slailati.android.spectacle.ui.viewmodel.MovieViewModel
 import com.slailati.android.spectacle.ui.viewmodel.MusicViewModel
 import com.slailati.android.spectacle.ui.viewmodel.UserViewModel

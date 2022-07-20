@@ -24,4 +24,6 @@
     <string name="add_title">Adicionar</string>
     <string name="music_already_added">A música escolhida já existe na sua playlist.</string>
     <string name="movie_already_added">O filme escolhido já existe na sua lista.</string>
+    <string name="menu_settings">Configurações</string>
+    <string name="menu_logout">Sair</string>
 </resources>

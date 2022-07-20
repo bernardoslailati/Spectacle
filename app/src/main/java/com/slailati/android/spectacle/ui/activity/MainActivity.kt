@@ -1,11 +1,15 @@
 package com.slailati.android.spectacle.ui.activity
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.navigation.NavigationView
 import com.slailati.android.spectacle.R
 import com.slailati.android.spectacle.databinding.ActivityMainBinding
 import com.slailati.android.spectacle.ui.base.BaseFragment
+import com.slailati.android.spectacle.ui.extension.toast
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,6 +21,14 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         supportActionBar?.hide()
         setContentView(view)
+//        binding.navViewUserMenu.setNavigationItemSelectedListener {
+//            this.toast(when (it.itemId) {
+//                R.id.nav_settings -> "configurações"
+//                R.id.nav_logout -> "sair"
+//                else -> ""
+//            })
+//            return@setNavigationItemSelectedListener true
+//        }
     }
 
     override fun onBackPressed() {

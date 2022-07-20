@@ -1,4 +1,4 @@
-package com.slailati.android.spectacle.data.util
+package com.slailati.android.spectacle.data.util.converter
 
 import com.google.gson.Gson
 import java.lang.reflect.Type
